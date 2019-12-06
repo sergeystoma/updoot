@@ -35,3 +35,10 @@ jobs:
       env:
         CI: true
         SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+    - name: Deploy to servers
+      run: |
+        echo "$DEPLOYMENT_KEY" > ~/.ssh/github-deployment
+        ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_HOST ls /srv
+      env:
+        DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}
+        SERVER_HOST: ${{ secrets.SERVER_HOST }}
