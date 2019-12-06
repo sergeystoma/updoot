@@ -27,17 +27,11 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Nuxt build
-      run: |
-        npm install yarn -g
-        yarn install
-        yarn build
-      env:
-        CI: true
-        SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+    
     - name: Deploy to servers
       run: |
         echo "$DEPLOYMENT_KEY" > ~/.ssh/github-deployment
+        chmod 600 ~/.ssh/github-deployment
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_HOST ls /srv
       env:
         DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}
