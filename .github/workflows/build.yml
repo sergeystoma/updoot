@@ -16,11 +16,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - uses: docker://redis:5.0.7
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: npm install, build, and test
+    - name: Nuxt build
       run: |
         npm install yarn -g
         yarn install
