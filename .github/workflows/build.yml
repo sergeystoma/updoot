@@ -47,6 +47,7 @@ jobs:
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST mkdir /srv/www-publish
         
         scp -rp -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment .nuxt $SERVER_USER@$SERVER_HOST:/srv/www-publish/
+        scp -rp -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment server $SERVER_USER@$SERVER_HOST:/srv/www-publish/
         scp -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment package.json $SERVER_USER@$SERVER_HOST:/srv/www-publish/
         scp -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment nuxt.config.js $SERVER_USER@$SERVER_HOST:/srv/www-publish/
         scp -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment yarn.lock $SERVER_USER@$SERVER_HOST:/srv/www-publish/
@@ -57,7 +58,7 @@ jobs:
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST mv /srv/www /srv/www-backup
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST mv /srv/www-publish /srv/www
         
-        service nginx restart
+        chown -R www-data:www-data /srv/www
       env:
         DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}
         SERVER_HOST: ${{ secrets.SERVER_HOST }}
