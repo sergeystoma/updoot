@@ -52,6 +52,12 @@ jobs:
         scp -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment yarn.lock $SERVER_USER@$SERVER_HOST:/srv/www-publish/
 
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST "cd /srv/www-publish && npm install yarn -g && yarn install"
+        
+        ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST rm -rf /srv/www-backup
+        ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST mv /srv/www /srv/www-backup
+        ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST mv /srv/www-publish /srv/www
+        
+        service nginx restart
       env:
         DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}
         SERVER_HOST: ${{ secrets.SERVER_HOST }}
