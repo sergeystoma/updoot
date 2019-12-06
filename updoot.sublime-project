@@ -1,0 +1,13 @@
+{
+	"folders":
+    [
+        {
+            "path": ".",
+            "binary_file_patterns": [".git/*", "node_modules/*", "dist/*"],
+            "index_exclude_patterns": [".git/*", "node_modules/*", "dist/*"]
+        }
+    ],
+    "settings": {
+        "rulers": [120, 160]
+    }
+}
