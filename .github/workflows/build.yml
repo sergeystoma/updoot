@@ -48,7 +48,7 @@ jobs:
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST rm -rf /srv/www-publish
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST mkdir /srv/www-publish
 
-        tar -czvf build.tar.gz .
+        tar -czvf --exclude=*.gz build.tar.gz .
         
         scp -rp -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment build.tar.gz $SERVER_USER@$SERVER_HOST:/srv/www-publish/
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST "cd /srv/www-publish && tar -xzvf build.tar.gz && rm build.tar.gz"
