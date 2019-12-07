@@ -40,6 +40,7 @@ jobs:
     - name: Deploy to servers
       run: |
         mkdir ~/.ssh
+        
         echo "$DEPLOYMENT_KEY" > ~/.ssh/github-deployment
         chmod 700 ~/.ssh
         chmod 600 ~/.ssh/github-deployment
