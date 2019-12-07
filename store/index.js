@@ -322,8 +322,6 @@ export const actions = {
                 });
 
                 if (saved.length > 0) {
-                    commit('SET_LOADING', false);
-
                     after = saved[saved.length - 1].name;
                     worker();
                 } else {

@@ -10,11 +10,23 @@
             >
 
             <button
-                class="toolbar__reload"
+                :class="[
+                    'toolbar__reload',
+                    {
+                        'toolbar__reload--loading': loading
+                    }
+                ]"
                 aria-label="Reload"
                 @click.prevent="reload"
             >
-                <i class="fas fa-redo" />
+                <i
+                    v-if="!loading"
+                    class="fas fa-redo"
+                />
+                <i
+                    v-if="loading"
+                    class="fas fa-circle-notch"
+                />
             </button>
 
             <button
@@ -70,7 +82,7 @@
 
         @include respond-above(lg) {
             max-width: 100%;
-            width: 375px + 30px + 375px + 30px + 375px;   
+            width: 375px + 30px + 375px + 30px + 375px;
         }
     }
 
@@ -84,7 +96,7 @@
         font-size: 18px;
         line-height: 40px;
 
-        border-radius: 10px; 
+        border-radius: 10px;
         border: none;
 
         color: #000 ;
@@ -113,8 +125,26 @@
         margin-left: 0;
     }
 
+    @keyframes spin {
+        from {
+            transform:rotate(0deg);
+        }
+        to {
+            transform:rotate(360deg);
+        }
+    }
+
     .toolbar__reload {
         margin-left: 12px;
+
+        &.toolbar__reload--loading {
+            opacity: 0.4;
+
+            animation-name: spin;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
     }
 </style>
 
@@ -126,6 +156,11 @@
             return {
                 search: '',
             };
+        },
+        computed: {
+            loading() {
+                return this.$store.state.loading;
+            },
         },
         mounted() {
             this.doSearchDebounce = debounce(this.doSearch, 250);
