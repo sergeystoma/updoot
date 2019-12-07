@@ -1,21 +1,32 @@
 <template>
     <div class="container">
-        <div 
-            class="hero" 
+        <div
+            class="hero"
             :style="{
                 height: fullscreenHeight ? `${fullscreenHeight}px` : null,
             }"
         >
             <div class="hero__content">
-                <Hero class="hero__logo" />
+                <img
+                    class="hero__logo"
+                    src="/hero.jpg"
+                    alt="Looking for that special recipe that you lost and couldn't find again because you have 1000 saved posts and comments..."
+                >
 
                 <h1>Updoot<small>.app</small></h1>
 
                 <h2>Lightweight saved posts and comments organizer for Reddit</h2>
 
+                <ul class="hero__features">
+                    <li>Safely connect to your Reddit account</li>
+                    <li>Search for anything using our smart search so you can find stuff even if someone spelled it "pnckes"</li>
+                    <li>Unclutter and unsave no longer necessary posts, or change your mind and save them back</li>
+                    <li>Temporarily pin posts to the top of your list</li>
+                </ul>
+
                 <button
                     v-if="!loggedIn"
-                    class="hero__login button button--large" 
+                    class="hero__login button button--large"
                     @click.prevent="login"
                 >
                     Sign in with Reddit
@@ -23,7 +34,7 @@
 
                 <button
                     v-if="loggedIn"
-                    class="hero__login button button--large" 
+                    class="hero__login button button--large"
                     @click.prevent="loadApp"
                 >
                     Go to the app
@@ -40,24 +51,24 @@
                 <p class="hero__consent">
                     By signing in and using Updoot.app you agree to our terms of use and the use of cookies for the app functionality and analytics.
                 </p>
-            </div>            
+            </div>
         </div>
 
         <footer>
-            &copy; 2019 
+            &copy; 2019
             Made with
-            <svg 
-                xmlns="http://www.w3.org/2000/svg" 
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 640 512"
             ><path d="M512 32H112c-8.8 0-16 7.2-16 16v256c0 44.2 35.8 80 80 80h224c44.2 0 80-35.8 80-80v-16h32c70.6 0 128-57.4 128-128S582.6 32 512 32zm-80 272c0 17.6-14.4 32-32 32H176c-17.6 0-32-14.4-32-32V80h288v224zm80-64h-32V80h32c44.1 0 80 35.9 80 80s-35.9 80-80 80zm55.8 240H40.2c-37.3 0-50.2-48-32-48h591.7c18.1 0 5.2 48-32.1 48z" /></svg>
             and a lack of
             <svg
-                xmlns="http://www.w3.org/2000/svg" 
+                xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"
             ><path d="M288 29V16a16 16 0 0 0-16-16H160a16 16 0 0 0-16 16v16a16 16 0 0 0 16 16h58.12l-82.2 93.94A32 32 0 0 0 128 163v13a16 16 0 0 0 16 16h112a16 16 0 0 0 16-16v-16a16 16 0 0 0-16-16h-58.13l82.21-93.94A32 32 0 0 0 288 29zm-88 227H32a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h99.34L9.53 440.06A32.09 32.09 0 0 0 0 462.86V488a24 24 0 0 0 24 24h184a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16H92.66l121.81-120.06a32.09 32.09 0 0 0 9.53-22.8V280a24 24 0 0 0-24-24zm232-32H320a16 16 0 0 0-16 16v16a16 16 0 0 0 16 16h58.12l-82.2 93.94A32 32 0 0 0 288 387v13a16 16 0 0 0 16 16h112a16 16 0 0 0 16-16v-16a16 16 0 0 0-16-16h-58.13l82.21-93.94A32 32 0 0 0 448 253v-13a16 16 0 0 0-16-16z" /></svg>.
-            <a href="#">Privacy Policy</a>
+            <a href="https://www.termsfeed.com/privacy-policy/f0bfd7e40e92346fa5b05c5f0fe51a2b">Privacy Policy</a>
             and
-            <a href="#">Terms of Use</a>
+            <a href="https://www.termsfeed.com/terms-conditions/5b2690df517070518303bd8e32c80b91">Terms of Use</a>
         </footer>
     </div>
 </template>
@@ -75,103 +86,137 @@
         align-items: center;
 
         overflow: hidden;
-
-        &:before {
-            content: '';
-
-            position: absolute;
-
-            left: 50%;
-            top: 0;
-
-            width: 100vw;
-            height: 100vh;
-
-            border-radius: 30% 70% 70% 30% / 46% 47% 53% 54%;
-
-            z-index: -1;
-
-            background: rgba(29, 30, 47, 0.06);
-
-            background-color: #21D4FD;
-            background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
-
-            opacity: 0.25;
-
-            transform: translate(-50%, -30%) rotate(30deg);
-        }
-
-        &:after {
-            content: '';
-
-            position: absolute;
-
-            left: 0%;
-            top: 0;
-
-            width: 100vw;
-            height: 100vw;
-
-            border-radius: 25% 75% 28% 72% / 70% 23% 77% 30%;
-
-            z-index: -1;
-
-            background: rgba(29, 30, 47, 0.06);
-
-            background-color: #08AEEA;
-            background-image: linear-gradient(0deg, #08AEEA 0%, #2AF598 100%);
-
-            opacity: 0.1;
-
-            transform: translate(-20%, -20%) rotate(-30deg);
-        }
     }
 
     .hero__content {
         position: relative;
 
+        padding: 0 10px;
+        margin-top: -50px;
+
         text-align: left;
+
+        @media (min-width: 768) {
+            padding: 0px;
+            margin: 0;
+        }
     }
 
     .hero__logo {
         position: absolute;
 
-        @media (min-width: 1024px) {
-            left: -32px;
-            top: -300px;
+        display: none;
 
-            width: 300px;
+        @media (min-width: 768px) {
+            display: block;
+
+            width: 400px;
+            height: 707px;
+
+            left: 55%;
+            top: 50%;
+            transform: translate(0, 0%);
+
+            opacity: 0.4;
         }
 
-        @media (min-width: 1200px) {
-            left: -410px;
-            top: -120px;
+        @media (min-width: 1024px) {
+            display: block;
 
-            width: 360px;
+            width: 400px;
+            height: 707px;
+
+            left: -410px;
+            top: 50%;
+            transform: translate(0, -50%);
+
+            opacity: 1;
         }
     }
 
     h1 {
         margin: 0;
 
-        
         @include font-header();
-        font-size: 72px;
+        font-size: 48px;
 
         color: #000;
 
         small {
-            font-size: 32px;
+            font-size: 24px;
+        }
+
+        @media (min-width: 768) {
+           font-size: 72px;
+
+           small {
+                font-size: 32px;
+            }
         }
     }
 
     h2 {
-        margin-bottom: 100px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+
+        @media (min-width: 768px) {
+            margin-bottom: 50px;
+        }
+
+        @media (min-height: 750px) {
+            margin-bottom: 80px;
+        }
+
+        @media (min-height: 850px) {
+            margin-bottom: 100px;
+        }
 
         @include font-header();
         font-size: 24px;
 
         color: #000;
+    }
+
+    .hero__features {
+        position: relative;
+
+        max-width: 700px;
+        margin: 0;
+        padding: 0;
+
+        columns: 2;
+
+        @include font-main();
+        font-size: 15px;
+
+        color: #242424;
+
+        margin-bottom: 30px;
+
+        z-index: 1;
+
+        @media (min-width: 768px) {
+            font-size: 18px;
+
+            margin-bottom: 50px;
+        }
+
+        @media (min-height: 750px) {
+            margin-bottom: 80px;
+        }
+
+        @media (min-height: 850px) {
+            margin-bottom: 100px;
+        }
+
+        li {
+            display: block;
+
+            margin: 0;
+            padding: 0;
+
+            margin-bottom: 20px;
+        }
     }
 
     .hero__login {
@@ -199,16 +244,24 @@
     footer {
         position: absolute;
 
+        padding: 0 10px;
+
         left: 0;
-        bottom: 40px;
+        bottom: 10px;
         width: 100%;
 
         @include font-main();
-        font-size: 16px;
+        font-size: 14px;
 
         color: #000;
 
         text-align: center;
+
+        @media (min-width: 768px) {
+            font-size: 16px;
+
+            bottom: 40px;
+        }
 
         a {
             color: #000;
@@ -220,19 +273,17 @@
             display: inline-block;
 
             height: 1em;
-            
+
             vertical-align: -0.25em;
         }
     }
 </style>
 
 <script>
-    import Hero from '../components/Hero.vue';
     import axios from 'axios';
 
     export default {
         components: {
-            Hero,
         },
         data() {
             return {
@@ -251,7 +302,7 @@
         },
         methods: {
             /**
-             * Updates the component height so it is always matches the actual screen height, since 100vh on 
+             * Updates the component height so it is always matches the actual screen height, since 100vh on
              * iOS includes the height of the toolbar.
              */
             updateHeight() {

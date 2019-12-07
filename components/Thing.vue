@@ -48,14 +48,14 @@
                 </button>
 
                 <a
-                    :href="'https://reddit' + item.subreddit"
+                    :href="'https://reddit.com/' + item.subreddit"
                     target="_blank"
                     class="thing__subreddit"
                 >{{ item.subreddit }}</a>
             </div>
 
             <div class="thing__info">
-                <a 
+                <a
                     :href="'https://reddit.com/u/' + item.author"
                     target="_blank"
                     class="thing__author"
@@ -63,7 +63,7 @@
 
                 <span class="thing__separator">&middot;</span>
 
-                <span 
+                <span
                     v-if="relativeCreated"
                     class="thing__time"
                 >{{ relativeCreated }}</span>
@@ -71,7 +71,7 @@
                 <template v-if="item.domain">
                     <span class="thing__separator">&middot;</span>
 
-                    <a 
+                    <a
                         :href="item.url"
                         target="_blank"
                         class="thing__url"
@@ -80,8 +80,8 @@
             </div>
         </div>
 
-        <div 
-            v-if="item.title" 
+        <div
+            v-if="item.title"
             class="thing__title"
         >
             <a
@@ -96,7 +96,7 @@
             </a>
         </div>
 
-        <div 
+        <div
             v-if="item.html"
             class="thing__body"
         >
@@ -107,7 +107,7 @@
             />
         </div>
 
-        <div 
+        <div
             v-if="preview"
             class="thing__preview"
         >
@@ -221,7 +221,7 @@
     .thing__body {
         display: -webkit-box;
         -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;  
+        -webkit-box-orient: vertical;
 
         margin: 5px 5px 15px;
 
@@ -313,7 +313,7 @@
                     if (this.showNsfw) {
                         return this.previewValid(this.item.preview) ? this.item.preview : null;
                     }
-                    
+
                     return this.previewValid(this.item.previewBlurred) ? this.item.previewBlurred : null;
                 }
 
@@ -336,7 +336,7 @@
             },
 
             observe(options) {
-                this.$emit('observe', options);    
+                this.$emit('observe', options);
             },
 
             unsave() {

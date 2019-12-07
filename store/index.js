@@ -99,11 +99,7 @@ function preprocess(saved) {
         s.searchable = `${s.title} ${s.text} ${s.author} ${s.subreddit}`.toUpperCase();
 
         // Cleanup title.
-        s.title = sanitizeHtml(decode(s.title), {
-            allowedTags: [],
-            allowedAttributes: {
-            },
-        });
+        s.title = decode(s.title);
 
         // Clean up body HTML.
         s.html = sanitizeHtml(decode(s.html), {

@@ -14,47 +14,47 @@ const config = {
     // API routes.
     serverMiddleware: [
         session({
-            store: new RedisStore({ 
-                client: redisClient 
+            store: new RedisStore({
+                client: redisClient
             }),
             secret: process.env.SESSION_SECRET,
             resave: false,
             saveUninitialized: false,
         }),
-        { 
-            path: 'api/login', 
-            handler: '~/api/login.js', 
+        {
+            path: 'api/login',
+            handler: '~/api/login.js',
         },
         {
-            path: 'api/logout', 
+            path: 'api/logout',
             handler: '~/api/logout.js',
         },
-        { 
-            path: 'api/oauth', 
-            handler: '~/api/oauth.js', 
+        {
+            path: 'api/oauth',
+            handler: '~/api/oauth.js',
         },
         {
-            path: 'api/me', 
+            path: 'api/me',
             handler: '~/api/me.js',
         },
         {
-            path: 'api/saved', 
+            path: 'api/saved',
             handler: '~/api/saved.js',
         },
         {
-            path: 'api/unsave', 
+            path: 'api/unsave',
             handler: '~/api/unsave.js',
         },
         {
-            path: 'api/save', 
+            path: 'api/save',
             handler: '~/api/save.js',
         },
         {
-            path: 'api/pin', 
+            path: 'api/pin',
             handler: '~/api/pin.js',
         },
         {
-            path: 'api/unpin', 
+            path: 'api/unpin',
             handler: '~/api/unpin.js',
         },
     ],
@@ -89,7 +89,7 @@ const config = {
 
     // Customize the progress-bar color
     loading: { color: '#fff' },
-    
+
     // Global CSS
     css: [],
 
@@ -109,6 +109,13 @@ const config = {
         // Doc: https://axios.nuxtjs.org/usage
         '@nuxtjs/axios',
         '@nuxtjs/pwa',
+
+        [
+            '@nuxtjs/google-analytics',
+            {
+                id: 'UA-154128321-1',
+            },
+        ],
     ],
 
     // Axios module configuration
