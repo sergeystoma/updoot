@@ -43,12 +43,11 @@ jobs:
         echo "$DEPLOYMENT_KEY" > ~/.ssh/github-deployment
         chmod 700 ~/.ssh
         chmod 600 ~/.ssh/github-deployment
+        
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST rm -rf /srv/www-publish
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST mkdir /srv/www-publish
 
-        scp -rp -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment --exclude="node_modules" . $SERVER_USER@$SERVER_HOST:/srv/www-publish/
-
-        ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST "cd /srv/www-publish && /snap/bin/npm install yarn -g && PATH=\$PATH:/snap/bin yarn install"
+        scp -rp -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment . $SERVER_USER@$SERVER_HOST:/srv/www-publish/
 
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST rm -rf /srv/www-backup
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST mv /srv/www /srv/www-backup
