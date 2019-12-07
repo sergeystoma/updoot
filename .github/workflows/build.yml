@@ -1,6 +1,6 @@
 name: Deploy
 
-on: 
+on:
   push:
     branches:
       - master
@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x]
-        
+
     services:
       redis:
         image: redis
@@ -27,7 +27,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-        
+
     - name: Nuxt build
       run: |
         npm install yarn -g
@@ -36,7 +36,7 @@ jobs:
       env:
         CI: true
         SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
-    
+
     - name: Deploy to servers
       run: |
         mkdir ~/.ssh
@@ -45,20 +45,16 @@ jobs:
         chmod 600 ~/.ssh/github-deployment
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST rm -rf /srv/www-publish
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST mkdir /srv/www-publish
-        
-        scp -rp -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment .nuxt $SERVER_USER@$SERVER_HOST:/srv/www-publish/
-        scp -rp -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment server $SERVER_USER@$SERVER_HOST:/srv/www-publish/
-        scp -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment package.json $SERVER_USER@$SERVER_HOST:/srv/www-publish/
-        scp -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment nuxt.config.js $SERVER_USER@$SERVER_HOST:/srv/www-publish/
-        scp -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment yarn.lock $SERVER_USER@$SERVER_HOST:/srv/www-publish/
+
+        scp -rp -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment --exclude="node_modules" . $SERVER_USER@$SERVER_HOST:/srv/www-publish/
 
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST "cd /srv/www-publish && /snap/bin/npm install yarn -g && PATH=\$PATH:/snap/bin yarn install"
-        
+
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST rm -rf /srv/www-backup
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST mv /srv/www /srv/www-backup
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST mv /srv/www-publish /srv/www
-        
-        chown -R www-data:www-data /srv/www
+
+        ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST "chown -R www-data:www-data /srv/www"
       env:
         DEPLOYMENT_KEY: ${{ secrets.DEPLOYMENT_KEY }}
         SERVER_HOST: ${{ secrets.SERVER_HOST }}

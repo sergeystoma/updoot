@@ -30,7 +30,7 @@ export const state = () => ({
     /**
      * Current search terms.
      */
-    search: null,    
+    search: null,
 
     /**
      * Current Fuse instance. In the state because there are reactive things depending on it.
@@ -97,6 +97,13 @@ function preprocess(saved) {
         }
 
         s.searchable = `${s.title} ${s.text} ${s.author} ${s.subreddit}`.toUpperCase();
+
+        // Cleanup title.
+        s.title = sanitizeHtml(decode(s.title), {
+            allowedTags: [],
+            allowedAttributes: {
+            },
+        });
 
         // Clean up body HTML.
         s.html = sanitizeHtml(decode(s.html), {
@@ -189,7 +196,7 @@ export const getters = {
             } else {
                 posts = state.fuseInstance.search(state.search);
             }
-        } 
+        }
 
         // Apply filters.
         if (state.filterNsfw === 1) {
@@ -236,7 +243,7 @@ export const mutations = {
             tokenize: true,
             matchAllTokens: true,
         };
-        
+
         state.fuseInstance = new Fuse(state.saved, options);
     },
 
@@ -315,12 +322,12 @@ export const actions = {
                 });
 
                 if (saved.length > 0) {
-                    commit('SET_LOADING', false);                    
+                    commit('SET_LOADING', false);
 
                     after = saved[saved.length - 1].name;
                     worker();
                 } else {
-                    commit('SET_LOADING', false);                    
+                    commit('SET_LOADING', false);
                 }
             });
         }
@@ -330,7 +337,7 @@ export const actions = {
         worker();
     },
 
-    /** 
+    /**
      * Sends a GET request to API.
      */
     apiGet({ dispatch }, url) {
@@ -343,7 +350,7 @@ export const actions = {
         });
     },
 
-    /** 
+    /**
      * Sends a POST request to API.
      */
     apiPost({ dispatch }, url) {
@@ -376,7 +383,7 @@ export const actions = {
         });
     },
 
-    /** 
+    /**
      * Shows the menu overlay.
      */
     showMenu({ commit }, status) {
@@ -397,7 +404,7 @@ export const actions = {
         commit('SET_FILTER_NSFW', status);
     },
 
-    /** 
+    /**
      * Unmask NSFW content.
      */
     setShowNsfw({ commit }, status) {
@@ -440,7 +447,7 @@ export const actions = {
             commit('SET_ITEM_SAVED', {
                 item,
                 saved: false,
-            }); 
+            });
         }).catch(() => {
         });
     },
@@ -453,7 +460,7 @@ export const actions = {
             commit('SET_ITEM_SAVED', {
                 item,
                 saved: true,
-            }); 
+            });
         }).catch(() => {
         });
     },
@@ -466,7 +473,7 @@ export const actions = {
             commit('SET_ITEM_PINNED', {
                 item,
                 pinned: false,
-            }); 
+            });
         }).catch(() => {
         });
     },
@@ -479,7 +486,7 @@ export const actions = {
             commit('SET_ITEM_PINNED', {
                 item,
                 pinned: true,
-            }); 
+            });
         }).catch(() => {
         });
     },
