@@ -61,7 +61,7 @@ const config = {
 
     // Headers of the page
     head: {
-        title: process.env.npm_package_name || '',
+        title: 'Updoot.app',
         meta: [
             { charset: 'utf-8' },
             {
@@ -71,7 +71,7 @@ const config = {
             {
                 hid: 'description',
                 name: 'description',
-                content: process.env.npm_package_description || '',
+                content: 'Lightweight saved posts and comments organizer for Reddit',
             },
         ],
         link: [
