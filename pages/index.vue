@@ -15,7 +15,7 @@
 
                 <h1>Updoot<small>.app</small></h1>
 
-                <h2>Lightweight saved posts and comments organizer for Reddit</h2>
+                <h2>Lightweight Reddit saved posts and comments manager and organizer</h2>
 
                 <ul class="hero__features">
                     <li>Safely connect to your Reddit account</li>
