@@ -138,12 +138,14 @@
         margin-left: 12px;
 
         &.toolbar__reload--loading {
-            opacity: 0.4;
+            i {
+                opacity: 0.4;
 
-            animation-name: spin;
-            animation-duration: 2s;
-            animation-iteration-count: infinite;
-            animation-timing-function: linear;
+                animation-name: spin;
+                animation-duration: 2s;
+                animation-iteration-count: infinite;
+                animation-timing-function: linear;
+            }
         }
     }
 </style>

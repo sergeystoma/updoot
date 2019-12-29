@@ -9,6 +9,81 @@
             </button>
 
             <div class="menu__section menu__section-header">
+                <span
+                    class="menu__nsfw"
+                ><i class="fas fa-exclamation-triangle" /> nsfw</span> Handling
+            </div>
+
+            <div class="menu__section">
+                <button
+                    :class="[
+                        'button',
+                        'button--toggle',
+                        {
+                            'button--toggle-active': filterNsfw == null,
+                        }
+                    ]"
+                    @click.prevent="setNsfwFilter(null)"
+                >
+                    Don't filter posts
+                </button>
+
+                <button
+                    :class="[
+                        'button',
+                        'button--toggle',
+                        {
+                            'button--toggle-active': filterNsfw === 1,
+                        }
+                    ]"
+                    @click.prevent="setNsfwFilter(1)"
+                >
+                    No NSFW posts
+                </button>
+
+                <button
+                    :class="[
+                        'button',
+                        'button--toggle',
+                        {
+                            'button--toggle-active': filterNsfw === 2,
+                        }
+                    ]"
+                    @click.prevent="setNsfwFilter(2)"
+                >
+                    Only NSFW posts
+                </button>
+            </div>
+
+            <div class="menu__section">
+                <button
+                    :class="[
+                        'button',
+                        'button--toggle',
+                        {
+                            'button--toggle-active': showNsfw === false
+                        }
+                    ]"
+                    @click.prevent="setShowNsfw(false)"
+                >
+                    Blur NSFW
+                </button>
+
+                <button
+                    :class="[
+                        'button',
+                        'button--toggle',
+                        {
+                            'button--toggle-active': showNsfw === true,
+                        }
+                    ]"
+                    @click.prevent="setShowNsfw(true)"
+                >
+                    Unmask content
+                </button>
+            </div>
+
+            <div class="menu__section menu__section-header">
                 <button
                     v-if="anySelected"
                     class="button button--action menu__filter-clear"
@@ -33,8 +108,8 @@
                     v-for="subreddit in filteredSubreddits"
                     :key="subreddit.name"
                     :class="[
-                        'button', 
-                        'button--toggle', 
+                        'button',
+                        'button--toggle',
                         {
                             'button--toggle-active': subreddit.selected,
                         }
@@ -42,81 +117,6 @@
                     @click.prevent="toggleSubreddit(subreddit)"
                 >
                     {{ subreddit.name }}
-                </button>
-            </div>
-
-            <div class="menu__section menu__section-header">
-                <span
-                    class="menu__nsfw"
-                ><i class="fas fa-exclamation-triangle" /> nsfw</span> Handling
-            </div>
-
-            <div class="menu__section">
-                <button
-                    :class="[
-                        'button', 
-                        'button--toggle', 
-                        {
-                            'button--toggle-active': filterNsfw == null,
-                        }
-                    ]"
-                    @click.prevent="setNsfwFilter(null)"
-                >
-                    Don't filter posts
-                </button>
-
-                <button
-                    :class="[
-                        'button', 
-                        'button--toggle', 
-                        {
-                            'button--toggle-active': filterNsfw === 1,
-                        }
-                    ]"
-                    @click.prevent="setNsfwFilter(1)"
-                >
-                    No NSFW posts
-                </button>
-
-                <button
-                    :class="[
-                        'button', 
-                        'button--toggle', 
-                        {
-                            'button--toggle-active': filterNsfw === 2,
-                        }
-                    ]"
-                    @click.prevent="setNsfwFilter(2)"
-                >
-                    Only NSFW posts
-                </button>
-            </div>
-
-            <div class="menu__section">
-                <button
-                    :class="[
-                        'button', 
-                        'button--toggle', 
-                        {
-                            'button--toggle-active': showNsfw === false
-                        }
-                    ]"
-                    @click.prevent="setShowNsfw(false)"
-                >
-                    Blur NSFW
-                </button>
-
-                <button
-                    :class="[
-                        'button', 
-                        'button--toggle', 
-                        {
-                            'button--toggle-active': showNsfw === true,
-                        }
-                    ]"
-                    @click.prevent="setShowNsfw(true)"
-                >
-                    Unmask content
                 </button>
             </div>
 
@@ -129,13 +129,13 @@
                     href="https://github.com/sergeystoma/updoot/issues"
                     target="_blank"
                     :class="[
-                        'button', 
-                        'button--action', 
+                        'button',
+                        'button--action',
                     ]"
                 >
                     Issues tracker @ GitHub
                 </a>
-            </div>            
+            </div>
 
             <div class="menu__section menu__section-header">
                 Account
@@ -144,14 +144,14 @@
             <div class="menu__section">
                 <button
                     :class="[
-                        'button', 
-                        'button--action', 
+                        'button',
+                        'button--action',
                     ]"
                     @click.prevent="logout"
                 >
                     Sign out
                 </button>
-            </div>            
+            </div>
         </div>
     </div>
 </template>
@@ -184,7 +184,7 @@
         margin: auto;
 
         background: #fff;
-        
+
         box-sizing: border-box;
 
         @include respond-above(sm) {
@@ -200,7 +200,7 @@
 
         @include respond-above(lg) {
             max-width: 100%;
-            width: 375px + 30px + 375px + 30px + 375px;   
+            width: 375px + 30px + 375px + 30px + 375px;
         }
 
         @include font-main();
@@ -208,7 +208,7 @@
         a {
             @include font-main();
 
-            text-decoration: none;            
+            text-decoration: none;
         }
     }
 
@@ -231,7 +231,7 @@
         cursor: pointer;
 
         @include respond-above(sm) {
-            
+
         }
     }
 
@@ -302,7 +302,7 @@
         font-size: 18px;
         line-height: 40px;
 
-        border-radius: 10px; 
+        border-radius: 10px;
         border: none;
 
         color: #000 ;
@@ -318,7 +318,7 @@
         float: right;
 
         position: relative;
-        
+
         top: -16px;
     }
 </style>

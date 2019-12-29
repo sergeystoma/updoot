@@ -61,7 +61,7 @@ const config = {
 
     // Headers of the page
     head: {
-        title: 'Updoot.app',
+        title: 'Updoot.app - Reddit saved posts and comments manager',
         meta: [
             { charset: 'utf-8' },
             {
@@ -71,7 +71,7 @@ const config = {
             {
                 hid: 'description',
                 name: 'description',
-                content: 'Lightweight saved posts and comments organizer for Reddit',
+                content: 'Lightweight saved posts and comments manager and organizer for Reddit',
             },
         ],
         link: [
