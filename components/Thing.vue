@@ -357,9 +357,11 @@
 
             share() {
                 if (navigator.share) {
+                    const url = `https://reddit.com${this.item.permalink}`;
+
                     navigator.share({
                         title: this.item.title,
-                        url: this.item.permalink,
+                        url,
                     });
                 }
             },
