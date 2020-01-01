@@ -1064,12 +1064,13 @@
 	],
 	"file_history":
 	[
-		"/Users/coder/Documents/Repositories/Clients/UnderClouds/git/updoot/pages/index.vue",
+		"/Users/coder/Documents/Repositories/Clients/UnderClouds/git/updoot/components/Thing.vue",
 		"/Users/coder/Documents/Repositories/Clients/UnderClouds/git/updoot/nuxt.config.js",
+		"/Users/coder/Documents/Repositories/Clients/UnderClouds/git/updoot/pages/index.vue",
 		"/Users/coder/Documents/Repositories/Clients/UnderClouds/git/updoot/components/Toolbar.vue",
+		"/Users/coder/Documents/Repositories/Clients/UnderClouds/git/updoot/components/Menu.vue",
 		"/Users/coder/Documents/Repositories/Clients/UnderClouds/git/updoot/.github/workflows/build.yml",
 		"/Users/coder/Documents/Repositories/Clients/UnderClouds/git/updoot/store/index.js",
-		"/Users/coder/Documents/Repositories/Clients/UnderClouds/git/updoot/components/Thing.vue",
 		"/Users/coder/.ssh/github-deployment",
 		"/Users/coder/Documents/Repositories/Clients/Coach/git/coach-customizer/widget/src/App.vue",
 		"/Users/coder/Documents/Repositories/Clients/Coach/git/coach-customizer/sfcc/store-app/src/strings-zh-tw.js",
@@ -1190,8 +1191,7 @@
 		"/Users/coder/Documents/Repositories/Clients/Drive/git/site/drive/.nuxt/App.js",
 		"/Users/coder/Documents/Repositories/Clients/Drive/git/site/drive/assets/svg/logo-full.svg",
 		"/Users/coder/Documents/Repositories/Clients/Drive/git/site/drive/assets/shared.scss",
-		"/Users/coder/Documents/Repositories/Clients/Drive/git/site/drive/plugins/slide-menu.js",
-		"/Users/coder/Documents/Repositories/Clients/Drive/git/site/drive/components/LayoutTwoUpTwoThirds.vue"
+		"/Users/coder/Documents/Repositories/Clients/Drive/git/site/drive/plugins/slide-menu.js"
 	],
 	"find":
 	{
@@ -1209,6 +1209,9 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			".remove();",
+			"reddit.com",
+			"share",
 			"ul",
 			"hero__log",
 			"loading",
