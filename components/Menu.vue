@@ -9,6 +9,38 @@
             </button>
 
             <div class="menu__section menu__section-header">
+                Layout <small>Mostly affects wide screens only</small>
+            </div>
+
+            <div class="menu__section">
+                <button
+                    :class="[
+                        'button',
+                        'button--toggle',
+                        {
+                            'button--toggle-active': layout === 'fixed',
+                        }
+                    ]"
+                    @click.prevent="setLayout('fixed')"
+                >
+                    Fixed number of columns
+                </button>
+
+                <button
+                    :class="[
+                        'button',
+                        'button--toggle',
+                        {
+                            'button--toggle-active': layout === 'fluid',
+                        }
+                    ]"
+                    @click.prevent="setLayout('fluid')"
+                >
+                    Dynamic
+                </button>
+            </div>
+
+            <div class="menu__section menu__section-header">
                 <span
                     class="menu__nsfw"
                 ><i class="fas fa-exclamation-triangle" /> nsfw</span> Handling
@@ -339,6 +371,10 @@
                 return this.$store.state.showNsfw;
             },
 
+            layout() {
+                return this.$store.state.layout;
+            },
+
             subreddits() {
                 const all = this.$store.state.availableSubreddits;
                 const selected = this.$store.state.subreddits;
@@ -374,6 +410,10 @@
 
             setShowNsfw(status) {
                 this.$store.dispatch('setShowNsfw', status);
+            },
+
+            setLayout(type) {
+                this.$store.dispatch('setLayout', type);
             },
 
             toggleSubreddit(subreddit) {

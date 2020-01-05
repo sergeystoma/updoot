@@ -91,3 +91,7 @@ sw.*
 
 # Ignore sample data.
 samples
+
+# Sublime Text
+*.sublime-workspace
+

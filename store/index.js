@@ -51,6 +51,11 @@ export const state = () => ({
      * Filter by subreddits.
      */
     subreddits: [],
+
+    /**
+     * Selected layout type.
+     */
+    layout: 'fixed',
 });
 
 /**
@@ -61,6 +66,7 @@ function saveSettings(state) {
         showNsfw: state.showNsfw,
         filterNsfw: state.filterNsfw,
         subreddits: state.subreddits,
+        layout: state.layout,
     }));
 }
 
@@ -80,6 +86,8 @@ function restoreSettings(state) {
     state.showNsfw = savedSettings && savedSettings.showNsfw != null ? savedSettings.showNsfw : state.showNsfw;
     state.filterNsfw = savedSettings && savedSettings.showNsfw != null ? savedSettings.filterNsfw : state.filterNsfw;
     state.subreddits = savedSettings && savedSettings.showNsfw != null ? savedSettings.subreddits : state.subreddits;
+
+    state.layout = savedSettings && savedSettings.layout ? savedSettings.layout : 'fixed';
 }
 
 /**
@@ -292,6 +300,12 @@ export const mutations = {
     SET_ITEM_PINNED(_, { item, pinned }) {
         item.pinned = pinned;
     },
+
+    SET_LAYOUT(state, type) {
+        state.layout = type;
+
+        saveSettings(state);
+    },
 };
 
 export const actions = {
@@ -490,5 +504,12 @@ export const actions = {
      */
     reload({ dispatch }) {
         dispatch('load');
+    },
+
+    /**
+     * Selects layout type.
+     */
+    setLayout({ commit }, type) {
+        commit('SET_LAYOUT', type);
     },
 };

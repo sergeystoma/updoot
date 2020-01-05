@@ -1,11 +1,18 @@
 <template>
-    <div class="grid">
+    <div
+        :class="
+            [
+                'grid',
+                'grid--' + layout
+            ]"
+    >
         <masonry
-            :cols="{ default: 3, 1220: 2, 800: 1 }"
+            :key="'masonry-' + layout"
+            :cols="masonryColumns"
             :gutter="{ default: '30px' }"
         >
             <Thing
-                v-for="item in saved" 
+                v-for="item in saved"
                 :key="item.name"
                 :item="item"
                 @observe="observe"
@@ -39,7 +46,39 @@
 
         @include respond-above(lg) {
             max-width: 100%;
-            width: 375px + 30px + 375px + 30px + 375px;   
+            width: 375px + 30px + 375px + 30px + 375px;
+        }
+
+        &.grid--fluid {
+            @include respond-above(lg1) {
+                max-width: 100%;
+                width: 375px + 30px + 375px + 30px + 375px + 30px + 375px;
+            }
+
+            @include respond-above(lg2) {
+                max-width: 100%;
+                width: 375px + 30px + 375px + 30px + 375px + 30px + 375px + 30px + 375px;
+            }
+
+            @include respond-above(lg3) {
+                max-width: 100%;
+                width: 375px + 30px + 375px + 30px + 375px + 30px + 375px + 30px + 375px + 30px + 375px;
+            }
+
+            @include respond-above(lg4) {
+                max-width: 100%;
+                width: 375px + 30px + 375px + 30px + 375px + 30px + 375px + 30px + 375px + 30px + 375px + 30px + 375px;
+            }
+
+            @include respond-above(lg5) {
+                max-width: 100%;
+                width: 375px + 30px + 375px + 30px + 375px + 30px + 375px + 30px + 375px + 30px + 375px + 30px + 375px + 30px + 375px;
+            }
+
+            @include respond-above(lg6) {
+                max-width: 100%;
+                width: 375px + 30px + 375px + 30px + 375px + 30px + 375px + 30px + 375px + 30px + 375px + 30px + 375px + 30px + 375px + 30px + 375px;
+            }
         }
 
         @include font-main();
@@ -47,7 +86,7 @@
         a {
             @include font-main();
 
-            text-decoration: none;            
+            text-decoration: none;
         }
     }
 </style>
@@ -72,6 +111,32 @@
         computed: {
             saved() {
                 return this.$store.getters.saved || [];
+            },
+
+            layout() {
+                return this.$store.state.layout;
+            },
+
+            masonryColumns() {
+                if (this.layout === 'fixed') {
+                    return {
+                        default: 3,
+                        1220: 2,
+                        800: 1,
+                    };
+                }
+
+                return {
+                    default: 9,
+                    3650: 8,
+                    3245: 7,
+                    2840: 6,
+                    2435: 5,
+                    2030: 4,
+                    1625: 3,
+                    1220: 2,
+                    800: 1,
+                };
             },
         },
         mounted() {

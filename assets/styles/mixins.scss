@@ -10,7 +10,13 @@ $color-text-warning: #ff3f4f;
 $breakpoints: (
     sm: 400px,
     md: 800px,
-    lg: 1220px
+    lg: 1220px,
+    lg1: 1625px,
+    lg2: 2030px,
+    lg3: 2435px,
+    lg4: 2840px,
+    lg5: 3245px,
+    lg6: 3650px
 );
 
 @mixin respond-above($breakpoint) {
