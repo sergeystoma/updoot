@@ -1,6 +1,6 @@
 # Updoot.app
 
-> Lightweight Reddit saved posts and comments manager
+Lightweight Reddit saved posts and comments manager — [Updoot.app](https://updoot.app)
 
 ## Build Setup
 
@@ -22,3 +22,7 @@ $ yarn generate
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+
+## Internals
+
+TODO: Document architecture, runtime configuration, etc.
