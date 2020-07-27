@@ -61,13 +61,31 @@ export default function (req, res) {
                                     url: image.variants.nsfw.source.url,
                                     width: image.variants.nsfw.source.width,
                                     height: image.variants.nsfw.source.height,
-                                };                                
+                                };
                             } else if (image.variants && image.variants.obfuscated && image.variants.obfuscated.source) {
                                 mapped.previewBlurred = {
                                     url: image.variants.obfuscated.source.url,
                                     width: image.variants.obfuscated.source.width,
                                     height: image.variants.obfuscated.source.height,
-                                };                                
+                                };
+                            }
+                        }
+                    }
+                } else {
+                    // If there is no automatic preview, try to use media metadata.
+                    if (thing.data.media_metadata) {
+                        const firstImage = Object.values(thing.data.media_metadata).find((media) => media.status === 'valid' && media.e === 'Image' && media.p);
+
+                        if (firstImage) {
+                            // First the first image that is larger that 320px
+                            const firstLargeEnough = firstImage.p.find((image) => image.x > 320);
+
+                            if (firstLargeEnough) {
+                                mapped.preview = {
+                                    url: firstLargeEnough.u,
+                                    width: firstLargeEnough.x,
+                                    height: firstLargeEnough.y,
+                                };
                             }
                         }
                     }
