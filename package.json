@@ -28,7 +28,7 @@
     "randomstring": "^1.1.5",
     "redis": "^2.8.0",
     "sanitize-html": "^1.20.1",
-    "serialize-javascript": "2.1.1",
+    "serialize-javascript": "3.1.0",
     "unescape": "^1.0.1",
     "vue-masonry-css": "^1.0.3"
   },
