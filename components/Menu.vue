@@ -149,6 +149,9 @@
                     @click.prevent="toggleSubreddit(subreddit)"
                 >
                     {{ subreddit.name }}
+                    <span class="button__count">
+                        {{ subreddit.count }}
+                    </span>
                 </button>
             </div>
 
@@ -375,12 +378,27 @@
                 return this.$store.state.layout;
             },
 
+            saved() {
+                return this.$store.getters.saved || [];
+            },
+
             subreddits() {
                 const all = this.$store.state.availableSubreddits;
                 const selected = this.$store.state.subreddits;
 
+                const counts = {};
+
+                this.saved.forEach(s => {
+                    if (counts[s.subreddit] == null) {
+                        counts[s.subreddit] = 0;
+                    }
+
+                    counts[s.subreddit] += 1;
+                });
+
                 return all.map(s => ({
                     name: s,
+                    count: counts[s],
                     selected: selected.includes(s),
                 }));
             },
