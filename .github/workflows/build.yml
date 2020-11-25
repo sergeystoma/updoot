@@ -54,7 +54,7 @@ jobs:
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST "cd /srv/www-publish && tar --extract --gzip --file=build.tar.gz && rm build.tar.gz"
 
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST rm -rf /srv/www-backup
-        ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST mv /srv/www /srv/www-backup
+        ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST mv /srv/www /srv/www-backup || true
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST mv /srv/www-publish /srv/www
 
         ssh -o "StrictHostKeyChecking no" -i ~/.ssh/github-deployment $SERVER_USER@$SERVER_HOST "chown -R www-data:www-data /srv/www"
