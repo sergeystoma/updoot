@@ -7,6 +7,10 @@ const redisClient = redis.createClient();
 const config = {
     mode: 'universal',
 
+    server: {
+        host: '0',
+    },
+
     // Environment.
     env: {
     },

@@ -1,13 +1,22 @@
 <template>
     <div class="toolbar">
         <div class="toolbar__controls">
-            <input
-                v-model="search"
-                type="search"
-                class="toolbar__search"
-                placeholder="Search..."
-                @input="updateSearch"
-            >
+            <div class="toolbar__input">
+                <input
+                    v-model="search"
+                    type="text"
+                    class="toolbar__search"
+                    :placeholder="searchPlaceholder"
+                    @input="updateSearch"
+                >
+
+                <span
+                    v-show="hasBubble"
+                    class="toolbar__bubble"
+                >
+                    <span>{{ savedCount }}</span>
+                </span>
+            </div>
 
             <button
                 :class="[
@@ -55,6 +64,12 @@
         z-index: 1;
     }
 
+    button {
+        color: #161617;
+        background: transparent;
+        border: none;
+    }
+
     .toolbar__controls {
         display: flex;
 
@@ -86,9 +101,16 @@
         }
     }
 
-    .toolbar__search {
-        flex: 1 0 auto;
+    .toolbar__input {
+        position: relative;
 
+        flex: 1 0 auto;
+    }
+
+    .toolbar__search {
+        display: inline-block;
+
+        width: 100%;
         height: 40px;
         padding: 0 20px;
 
@@ -104,6 +126,30 @@
 
         &:focus {
             outline: none;
+        }
+    }
+
+    .toolbar__bubble {
+        position: absolute;
+        display: flex;
+
+        justify-content: center;
+        align-items: center;
+
+        padding: 0 8px;
+
+        height: calc(100% - 12px);
+        top: 6px;
+        right: 6px;
+        border-radius: 9px;
+
+        background: #161617;
+        color: #fff;
+
+        span {
+            @include font-main();
+            font-size: 16px;
+            line-height: 1;
         }
     }
 
@@ -162,6 +208,34 @@
         computed: {
             loading() {
                 return this.$store.state.loading;
+            },
+
+            saved() {
+                return this.$store.getters.saved || [];
+            },
+
+            savedCount() {
+                return this.saved.length;
+            },
+
+            hasBubble() {
+                return this.search && this.search.length > 1;
+            },
+
+            searchPlaceholder() {
+                if (this.savedCount === 0) {
+                    if (this.loading) {
+                        return 'Search (still loading)...';
+                    } else {
+                        return 'Search...';
+                    }
+                } else {
+                    if (this.loading) {
+                        return `Search ${this.savedCount} (and still loading) saved posts...`;
+                    } else {
+                        return `Search ${this.savedCount} saved posts...`;
+                    }
+                }
             },
         },
         mounted() {
