@@ -23,7 +23,33 @@
                     ]"
                     @click.prevent="setLayout('fixed')"
                 >
-                    Fixed number of columns
+                    Default &mdash; Up to three columns
+                </button>
+
+                <button
+                    :class="[
+                        'button',
+                        'button--toggle',
+                        {
+                            'button--toggle-active': layout === 'one',
+                        }
+                    ]"
+                    @click.prevent="setLayout('one')"
+                >
+                    One column
+                </button>
+
+                <button
+                    :class="[
+                        'button',
+                        'button--toggle',
+                        {
+                            'button--toggle-active': layout === 'two',
+                        }
+                    ]"
+                    @click.prevent="setLayout('two')"
+                >
+                    Up to two columns
                 </button>
 
                 <button

@@ -1,5 +1,6 @@
 <template>
     <div
+        ref="grid"
         :class="
             [
                 'grid',
@@ -15,6 +16,8 @@
                 v-for="item in saved"
                 :key="item.name"
                 :item="item"
+                :width="width"
+                :height-limit="heightLimit"
                 @observe="observe"
             />
         </masonry>
@@ -106,6 +109,8 @@
         data() {
             return {
                 observer: null,
+                width: null,
+                heightLimit: null,
             };
         },
         computed: {
@@ -118,6 +123,22 @@
             },
 
             masonryColumns() {
+                if (this.layout === 'one') {
+                    return {
+                        default: 1,
+                        1220: 1,
+                        800: 1,
+                    };
+                }
+
+                if (this.layout === 'two') {
+                    return {
+                        default: 2,
+                        1220: 2,
+                        800: 1,
+                    };
+                }
+
                 if (this.layout === 'fixed') {
                     return {
                         default: 3,
@@ -145,6 +166,10 @@
             });
 
             this.observers = {};
+
+            this.updateWidth();
+
+            window.addEventListener('resize', this.updateWidth, false);
         },
         beforeDestroy() {
             if (this.observer) {
@@ -169,6 +194,15 @@
                 } else {
                     delete this.observers[options.$el];
                     this.observer.unobserve(options.$el);
+                }
+            },
+
+            updateWidth() {
+                if (this.layout === 'one' && this.$refs.grid) {
+                    this.width = this.$refs.grid.offsetWidth;
+                    this.heightLimit = window.innerHeight * 0.8;
+                } else {
+                    this.width = null;
                 }
             },
         },

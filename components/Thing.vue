@@ -113,7 +113,7 @@
         >
             <div
                 class="preview"
-                :style="previewStyle(preview)"
+                :style="previewStyle"
             >
                 <ThingImage
                     :item="item"
@@ -280,6 +280,12 @@
         background-size: cover;
         background-repeat: no-repeat;
     }
+
+    .grid.grid--one {
+        .preview__image {
+            background-size: contain;
+        }
+    }
 </style>
 
 <script>
@@ -292,6 +298,14 @@
         props: {
             item: {
                 type: Object,
+                default: null,
+            },
+            width: {
+                type: Number,
+                default: null,
+            },
+            heightLimit: {
+                type: Number,
                 default: null,
             },
         },
@@ -319,6 +333,26 @@
 
                 return this.previewValid(this.item.preview) ? this.item.preview : null;
             },
+
+            previewStyle() {
+                let ratio = (this.preview.height * 100) / this.preview.width;
+
+                if (this.layout === 'one' && this.width != null) {
+                    const height = this.width * ratio / 100;
+
+                    if (height > this.heightLimit) {
+                        ratio = this.heightLimit / this.width * 100;
+                    }
+                }
+
+                return {
+                    paddingTop: `${ratio.toFixed(2)}%`,
+                };
+            },
+
+            layout() {
+                return this.$store.state.layout;
+            },
         },
         methods: {
             notEmpty(s) {
@@ -327,12 +361,6 @@
 
             previewValid(preview) {
                 return preview && preview.url && preview.width > 0 && preview.height > 0;
-            },
-
-            previewStyle(preview) {
-                return {
-                    paddingTop: `${((preview.height * 100) / preview.width).toFixed(2)}%`,
-                };
             },
 
             observe(options) {
