@@ -62,7 +62,7 @@ export const state = () => ({
  * Saves state in the session.
  */
 function saveSettings(state) {
-    sessionStorage.setItem('settings', JSON.stringify({
+    localStorage.setItem('settings', JSON.stringify({
         showNsfw: state.showNsfw,
         filterNsfw: state.filterNsfw,
         subreddits: state.subreddits,
@@ -75,7 +75,7 @@ function saveSettings(state) {
  */
 function restoreSettings(state) {
     // On load, restore state from session storage.
-    let savedSettings = sessionStorage.getItem('settings');
+    let savedSettings = localStorage.getItem('settings') || sessionStorage.getItem('settings');
 
     try {
         savedSettings = JSON.parse(savedSettings);
