@@ -21,7 +21,7 @@
     "express": "^4.16.4",
     "express-session": "^1.17.0",
     "fuse.js": "^3.4.6",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "node-cache": "^5.0.2",
     "nuxt": "^2.0.0",
     "query-string": "^6.9.0",
