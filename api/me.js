@@ -2,10 +2,13 @@ import { get } from './reddit.js';
 
 import { log } from './db.js';
 
+import { tokenHash } from './token.js';
+
 export default function (req, res) {
     get(req, 'https://oauth.reddit.com/api/v1/me').then((me) => {
         res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate').json({
             name: me.name,
+            token: tokenHash(req),
             pinned: req.session.pinned || [],
         });
     }).catch((error) => {

@@ -2,6 +2,8 @@ import axios from 'axios';
 import Fuse from 'fuse.js';
 import decode from 'unescape';
 import sanitizeHtml from 'sanitize-html';
+import aes from 'crypto-js/aes';
+import encUtf8 from 'crypto-js/enc-utf8';
 
 // When enabled, use naive filtering/searching algorithm instead of Fuse.js.
 const useNaiveFilter = false;
@@ -21,6 +23,11 @@ export const state = () => ({
      * Saved posts.
      */
     saved: [],
+
+    /**
+     * Loading in progress posts.
+     */
+    caching: null,
 
     /**
      * Is main menu visible.
@@ -56,6 +63,11 @@ export const state = () => ({
      * Selected layout type.
      */
     layout: 'fixed',
+
+    /**
+     * State encryption token.
+     */
+    tokenHash: '',
 });
 
 /**
@@ -166,6 +178,27 @@ function preprocess(saved) {
 }
 
 /**
+ * Post process state after updating saved posts.
+ */
+function postprocess(state) {
+    // Sort by pinned status.
+    // We are sorting on load to avoid things jumping up and down in the list.
+    state.saved = state.saved.filter(s => s.pinned).concat(state.saved.filter(s => !s.pinned));
+
+    // Collect available subreddits.
+    state.availableSubreddits = [...new Set(state.saved.map(x => x.subreddit))].sort();
+
+    // Rebuild an index.
+    const options = {
+        keys: ['title', 'author', 'subreddit', 'text'],
+        tokenize: true,
+        matchAllTokens: true,
+    };
+
+    state.fuseInstance = new Fuse(state.saved, options);
+}
+
+/**
  * Checks if the strings contains all tokens.
  */
 function checkTokens(s, tokens) {
@@ -225,30 +258,56 @@ export const mutations = {
         state.loading = status;
     },
 
-    SET_SAVED(state, { saved, reset }) {
+    SET_TOKEN_HASH(state, hash) {
+        state.tokenHash = hash;
+    },
+
+    SET_SAVED(state, { saved, reset, firstTime }) {
         preprocess(saved);
 
-        if (reset) {
-            state.saved = saved;
+        if (firstTime) {
+            // Update posts right away while we are hydrating the cache.
+            if (reset) {
+                state.saved = saved;
+            } else {
+                state.saved.push(...saved);
+            }
+
+            postprocess(state);
         } else {
-            state.saved.push(...saved);
+            // Accumulate posts in the cache first.
+            if (reset) {
+                state.caching = saved;
+            } else {
+                state.caching.push(...saved);
+            }
+        }
+    },
+
+    SET_CACHING_START(state) {
+        state.caching = [];
+    },
+
+    SET_SAVED_DONE(state, { firstTime }) {
+        if (!firstTime) {
+            // Swap the loaded state and the cache.
+            state.saved = state.caching;
+
+            state.caching = null;
+
+            postprocess(state);
         }
 
-        // Sort by pinned status.
-        // We are sorting on load to avoid things jumping up and down in the list.
-        state.saved = state.saved.filter(s => s.pinned).concat(state.saved.filter(s => !s.pinned));
+        // Save in the browser cache.
+        try {
+            const encryptedData = aes.encrypt(JSON.stringify(state.saved), state.tokenHash);
 
-        // Collect available subreddits.
-        state.availableSubreddits = [...new Set(state.saved.map(x => x.subreddit))].sort();
+            const formattedCache = encryptedData.toString();
 
-        // Rebuild an index.
-        const options = {
-            keys: ['title', 'author', 'subreddit', 'text'],
-            tokenize: true,
-            matchAllTokens: true,
-        };
-
-        state.fuseInstance = new Fuse(state.saved, options);
+            localStorage.setItem('CACHED_POSTS', formattedCache);
+        } catch (e) {
+            // Nothing.
+        }
     },
 
     SET_MENU(state, status) {
@@ -312,32 +371,73 @@ export const actions = {
     /**
      * Check logged in state on start.
      */
-    start({ dispatch }) {
-        dispatch('apiGet', '/api/me').then((me) => {
+    start({ commit, dispatch }) {
+        return dispatch('apiGet', '/api/me').then((me) => {
+            commit('SET_TOKEN_HASH', me.token);
+
             return me.name;
+        });
+    },
+
+    /**
+     * Restore posts from the cached state.
+     */
+    loadCached({ commit, state }) {
+        return new Promise((resolve) => {
+            try {
+                const encryptedData = localStorage.getItem('CACHED_POSTS');
+
+                if (encryptedData) {
+                    const savedData = aes.decrypt(encryptedData, state.tokenHash);
+
+                    if (savedData) {
+                        const data = JSON.parse(savedData.toString(encUtf8));
+
+                        commit('SET_SAVED', {
+                            saved: data,
+                            reset: true,
+                            firstTime: true,
+                        });
+                    }
+                }
+            } catch (e) {
+                // Nothing.
+            }
+
+            resolve();
         });
     },
 
     /**
      * Loads all saved posts.
      */
-    load({ commit, dispatch }) {
+    load({ state, commit, dispatch }) {
         let after = null;
+
+        const firstTime = state.saved.length === 0;
 
         function worker() {
             dispatch('apiGet', after ? `/api/saved?after=${encodeURIComponent(after)}` : '/api/saved').then((saved) => {
                 commit('SET_SAVED', {
                     saved,
                     reset: after == null,
+                    firstTime,
                 });
 
                 if (saved.length > 0) {
                     after = saved[saved.length - 1].name;
                     worker();
                 } else {
+                    commit('SET_SAVED_DONE', {
+                        firstTime,
+                    });
                     commit('SET_LOADING', false);
                 }
             });
+        }
+
+        if (!firstTime) {
+            commit('SET_CACHING_START');
         }
 
         commit('SET_LOADING', true);

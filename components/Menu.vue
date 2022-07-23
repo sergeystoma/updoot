@@ -9,6 +9,16 @@
             </button>
 
             <div class="menu__section menu__section-header">
+                Updates history
+            </div>
+
+            <div class="menu__section">
+                <p class="news-update">
+                    <span class="news-update__date">July 2022</span> &mdash; <span class="news-update__text">Saved posts will now be cached locally in the browser so the search would be available right after loading.</span>
+                </p>
+            </div>
+
+            <div class="menu__section menu__section-header">
                 Layout <small>Mostly affects wide screens only</small>
             </div>
 
@@ -381,6 +391,18 @@
         position: relative;
 
         top: -16px;
+    }
+
+    .news-update {
+        margin: 5px 0 15px 10px;
+    }
+
+    .news-update__date {
+        display: inline-block;
+
+        margin-right: 5px;
+
+        color: #ff3f4f;
     }
 </style>
 

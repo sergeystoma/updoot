@@ -69,7 +69,9 @@
             this.$store.dispatch('restoreSettings');
 
             this.$store.dispatch('start').then(() => {
-                this.$store.dispatch('load');
+                this.$store.dispatch('loadCached').then(() => {
+                    this.$store.dispatch('load');
+                });
             });
         },
         methods: {

@@ -17,6 +17,7 @@
     "@nuxtjs/pwa": "^3.0.0-0",
     "connect-redis": "^4.0.3",
     "cross-env": "^5.2.0",
+    "crypto-js": "^4.1.1",
     "debounce": "^1.2.0",
     "express": "^4.16.4",
     "express-session": "^1.17.0",
@@ -42,10 +43,10 @@
     "eslint-plugin-nuxt": ">=0.4.2",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^6.0.1",
-    "node-sass": "^4.13.1",
     "nodemon": "^1.18.9",
     "normalize.css": "^8.0.1",
     "prettier": "^1.19.1",
+    "sass": "^1.54.0",
     "sass-loader": "^8.0.0",
     "stylelint": "^10.1.0"
   }

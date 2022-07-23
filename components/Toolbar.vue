@@ -154,6 +154,7 @@
     }
 
     .toolbar__reload, .toolbar__menu {
+
         flex: 0 0 auto;
 
         margin-left: 10px;
@@ -168,7 +169,25 @@
     }
 
     .toolbar__menu {
+        position: relative;
+
         margin-left: 0;
+
+        &:after {
+            content: '';
+
+            position: absolute;
+
+            width: 8px;
+            height: 8px;
+
+            right: 3px;
+            top: 3px;
+
+            border-radius: 8px;
+
+            background: #dd5368;
+        }
     }
 
     @keyframes spin {
@@ -218,6 +237,10 @@
                 return this.saved.length;
             },
 
+            cachingCount() {
+                return this.$store.state.caching ? this.$store.state.caching.length : null;
+            },
+
             hasBubble() {
                 return this.search && this.search.length > 1;
             },
@@ -231,9 +254,13 @@
                     }
                 } else {
                     if (this.loading) {
-                        return `Search ${this.savedCount} (and still loading) saved posts...`;
+                        if (this.cachingCount != null) {
+                            return `Search ${this.savedCount} posts while refreshing (${this.cachingCount} so far...)`;
+                        } else {
+                            return `Search ${this.savedCount} (and still loading) saved posts...`;
+                        }
                     } else {
-                        return `Search ${this.savedCount} saved posts...`;
+                        return `Search ${this.savedCount} saved posts`;
                     }
                 }
             },
