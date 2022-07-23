@@ -125,7 +125,10 @@ function preprocess(saved) {
         s.html = sanitizeHtml(decode(s.html), {
             allowedTags: ['a'],
             allowedAttributes: {
-                'a': [ 'href' ]
+                'a': ['href', 'target']
+            },
+            transformTags: {
+                'a': sanitizeHtml.simpleTransform('a', { target: '_blank' }, true),
             },
         });
 
@@ -614,8 +617,12 @@ export const actions = {
     /**
      * Reload saved posts.
      */
-    reload({ dispatch }) {
-        dispatch('load');
+    reload({ dispatch, commit }) {
+        dispatch('apiGet', '/api/me').then((me) => {
+            commit('SET_TOKEN_HASH', me.token);
+
+            dispatch('load');
+        });
     },
 
     /**
