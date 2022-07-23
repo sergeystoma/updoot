@@ -14,7 +14,17 @@
 
             <div class="menu__section">
                 <p class="news-update">
-                    <span class="news-update__date">July 2022</span> &mdash; <span class="news-update__text">Saved posts will now be cached locally in the browser so the search would be available right after loading.</span>
+                    <span class="news-update__date">July 2022</span> &mdash; <span class="news-update__text">Saved posts will now be cached locally in the browser so the search would be available right after loading while posts are refreshed from Reddit.</span>
+                </p>
+                <p class="news-update">
+                    <span class="news-update__date">July 2022</span> &mdash; <span class="news-update__text">Improved search results with a new upgraded engine. This new version also allows
+                        <a
+                            href="https://fusejs.io/examples.html#extended-search"
+                            target="_blank"
+                        >
+                            advanced search
+                        </a>.
+                    </span>
                 </p>
             </div>
 
@@ -403,6 +413,13 @@
         margin-right: 5px;
 
         color: #ff3f4f;
+    }
+
+    .news-update a {
+        color: #ff3f4f;
+
+        text-decoration: underline;
+        text-underline-offset: 2px;
     }
 </style>
 

@@ -190,9 +190,21 @@ function postprocess(state) {
 
     // Rebuild an index.
     const options = {
-        keys: ['title', 'author', 'subreddit', 'text'],
-        tokenize: true,
-        matchAllTokens: true,
+        keys: [
+            {
+                name: 'title',
+                weight: 4,
+            },
+            {
+                name: 'text',
+                weight: 3,
+            },
+            'subreddit',
+            'author'
+        ],
+        minMatchCharLength: 2,
+        useExtendedSearch: true,
+        ignoreLocation: true,
     };
 
     state.fuseInstance = new Fuse(state.saved, options);
@@ -231,7 +243,7 @@ export const getters = {
                     return false;
                 });
             } else {
-                posts = state.fuseInstance.search(state.search);
+                posts = state.fuseInstance.search(state.search).map(r => r.item);
             }
         }
 
