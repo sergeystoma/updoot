@@ -141,7 +141,7 @@
         @include font-header();
         font-size: 48px;
 
-        color: #000;
+        color: var(--color-landing-text);
 
         small {
             font-size: 24px;
@@ -175,7 +175,7 @@
         @include font-header();
         font-size: 24px;
 
-        color: #000;
+        color: var(--color-landing-text);
     }
 
     .hero__features {
@@ -190,7 +190,7 @@
         @include font-main();
         font-size: 15px;
 
-        color: #242424;
+        color: var(--color-landing-hero-text);
 
         margin-bottom: 30px;
 
@@ -226,13 +226,13 @@
     .hero__logout {
         margin-left: 10px;
 
-        border: 1px solid #242424;
+        border: 1px solid var(--color-landing-hero-text);
         background: transparent;
 
         @include font-main();
         font-size: 16px;
 
-        color: #242424;
+        color: var(--color-landing-hero-text);
     }
 
     .hero__consent {
@@ -254,7 +254,7 @@
         @include font-main();
         font-size: 14px;
 
-        color: #000;
+        color: var(--color-landing-text);
 
         text-align: center;
 
@@ -265,7 +265,7 @@
         }
 
         a {
-            color: #000;
+            color: var(--color-landing-text);
 
             text-decoration: none;
         }

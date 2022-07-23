@@ -137,13 +137,13 @@
 
     .thing {
         position: relative;
-        ;
-        border-top: 5px solid #f0f0f0;
+
+        border-top: 5px solid var(--color-thing-separator);
         padding-top: 10px;
         margin-top: 10px;
 
         @include respond-above(sm) {
-            border-top: 2px solid #f0f0f0;
+            border-top: 2px solid var(--color-thing-separator);
         }
     }
 
@@ -154,14 +154,14 @@
 
         font-size: 14px;
 
-        color: $color-text-faded;
+        color: var(--color-text-faded);
 
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
 
         a {
-            color: $color-text-faded;
+            color: var(--color-text-faded);
         }
     }
 
@@ -199,7 +199,7 @@
 
         font-size: 14px;
 
-        color: $color-text-faded;
+        color: var(--color-text-faded);
 
         white-space: nowrap;
         text-overflow: ellipsis;
@@ -207,14 +207,14 @@
         overflow: hidden;
 
         a {
-            color: $color-text-faded;
+            color: var(--color-text-faded);
         }
     }
 
     .thing__separator {
         margin: 0 3px;
 
-        color: $color-text-faded;
+        color: var(--color-text-faded);
     }
 
     .thing__title {
@@ -223,7 +223,7 @@
         font-size: 18px;
 
         a {
-            color: $color-text-main;
+            color: var(--color-text-main);
         }
     }
 
@@ -243,14 +243,14 @@
         text-overflow: ellipsis;
 
         a {
-            color: $color-text-copy;
+            color: var(--color-text-copy);
         }
     }
 
     .thing__nsfw {
         margin-right: 5px;
 
-        color: $color-text-warning;
+        color: var(--color-text-warning);
 
         font-size: 16px;
         vertical-align: 1px;

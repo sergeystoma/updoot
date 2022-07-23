@@ -14,6 +14,9 @@
 
             <div class="menu__section">
                 <p class="news-update">
+                    <span class="news-update__date">July 2022</span> &mdash; <span class="news-update__text">Dark mode.</span>
+                </p>
+                <p class="news-update">
                     <span class="news-update__date">July 2022</span> &mdash; <span class="news-update__text">Saved posts will now be cached locally in the browser so the search would be available right after loading while posts are refreshed from Reddit.</span>
                 </p>
                 <p class="news-update">
@@ -26,6 +29,51 @@
                         </a>.
                     </span>
                 </p>
+            </div>
+
+            <div class="menu__section menu__section-header">
+                Theme
+            </div>
+
+            <div class="menu__section">
+                <button
+                    :class="[
+                        'button',
+                        'button--toggle',
+                        {
+                            'button--toggle-active': theme == null || theme === 'light',
+                        }
+                    ]"
+                    @click.prevent="setTheme('light')"
+                >
+                    Light
+                </button>
+
+                <button
+                    :class="[
+                        'button',
+                        'button--toggle',
+                        {
+                            'button--toggle-active': theme === 'dark',
+                        }
+                    ]"
+                    @click.prevent="setTheme('dark')"
+                >
+                    Dark
+                </button>
+
+                <button
+                    :class="[
+                        'button',
+                        'button--toggle',
+                        {
+                            'button--toggle-active': theme === 'auto',
+                        }
+                    ]"
+                    @click.prevent="setTheme('auto')"
+                >
+                    Auto
+                </button>
             </div>
 
             <div class="menu__section menu__section-header">
@@ -175,7 +223,7 @@
             <div class="menu__section">
                 <input
                     v-model="filterSubreddits"
-                    type="search"
+                    type="text"
                     placeholder="Find a subreddit..."
                     class="menu__filter-subreddit"
                 >
@@ -249,7 +297,7 @@
         width: 100%;
         min-height: 100%;
 
-        background: #fff;
+        background: var(--color-background-main);
 
         z-index: 2;
     }
@@ -264,7 +312,7 @@
 
         margin: auto;
 
-        background: #fff;
+        background: var(--color-background-main);
 
         box-sizing: border-box;
 
@@ -345,7 +393,7 @@
 
                 height: 1px;
 
-                background: #eaeaea;
+                background: var(--color-section-separator);
             }
         }
     }
@@ -357,12 +405,14 @@
         margin-bottom: 15px;
 
         font-size: 18px;
+
+        color: var(--color-text-main);
     }
 
     .menu__nsfw {
         margin-right: 5px;
 
-        color: $color-text-warning;
+        color: var(--color-text-warning);
 
         font-size: 16px;
         vertical-align: 1px;
@@ -386,8 +436,8 @@
         border-radius: 10px;
         border: none;
 
-        color: #000 ;
-        background: #f1f1f1;
+        color: var(--color-button-dark-text);
+        background: var(--color-background-faded);
 
         &:focus {
             outline: none;
@@ -405,6 +455,8 @@
 
     .news-update {
         margin: 5px 0 15px 10px;
+
+        color: var(--color-text-main);
     }
 
     .news-update__date {
@@ -412,11 +464,11 @@
 
         margin-right: 5px;
 
-        color: #ff3f4f;
+        color: var(--color-attention);
     }
 
     .news-update a {
-        color: #ff3f4f;
+        color: var(--color-attention);
 
         text-decoration: underline;
         text-underline-offset: 2px;
@@ -481,6 +533,10 @@
             anySelected() {
                 return this.subreddits.some(s => s.selected);
             },
+
+            theme() {
+                return this.$store.state.theme;
+            },
         },
         methods: {
             close() {
@@ -513,6 +569,10 @@
 
             logout() {
                 this.$store.dispatch('logout');
+            },
+
+            setTheme(theme) {
+                this.$store.dispatch('setTheme', theme);
             },
         },
     };

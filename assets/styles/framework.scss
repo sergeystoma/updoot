@@ -18,12 +18,12 @@ body {
 
 .button {
     border: none;
-    background: #000;
+    background: var(--color-button-background);
 
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 16px;
 
-    color: #fff;
+    color: var(--color-button-text);
 
     cursor: pointer;
 }
@@ -41,34 +41,34 @@ body {
 
     background: transparent;
 
-    border: 1px solid #000;
+    border: 1px solid var(--color-button-background);
 
     border-radius: 50px;
 
-    color: #000;
+    color: var(--color-button-background);
 
     &.button--toggle-active {
-        background: #000;
+        background: var(--color-button-background);
 
-        color: #fff;
+        color: var(--color-button-text);
     }
 }
 
 .button__count {
     margin-left: 5px;
-    color: #999;
+    color: var(--color-button-count);
 }
 
 .button--action {
     padding: 10px 20px;
 
-    background: #000;
+    background: var(--color-button-background);
 
-    border: 1px solid #000;
+    border: 1px solid var(--color-button-background);
 
     border-radius: 50px;
 
-    color: #fff;
+    color: var(--color-button-text);
 }
 
 .pull--left {

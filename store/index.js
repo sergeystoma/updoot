@@ -10,6 +10,11 @@ const useNaiveFilter = false;
 
 export const state = () => ({
     /**
+     * Theme.
+     */
+    theme: null,
+
+    /**
      * Show NSFW images or show blurred content.
      */
     showNsfw: false,
@@ -80,6 +85,7 @@ export const state = () => ({
  */
 function saveSettings(state) {
     localStorage.setItem('settings', JSON.stringify({
+        theme: state.theme,
         showNsfw: state.showNsfw,
         filterNsfw: state.filterNsfw,
         subreddits: state.subreddits,
@@ -100,6 +106,7 @@ function restoreSettings(state) {
         savedSettings = null;
     }
 
+    state.theme = savedSettings && savedSettings.theme != null ? savedSettings.theme : state.theme;
     state.showNsfw = savedSettings && savedSettings.showNsfw != null ? savedSettings.showNsfw : state.showNsfw;
     state.filterNsfw = savedSettings && savedSettings.showNsfw != null ? savedSettings.filterNsfw : state.filterNsfw;
     state.subreddits = savedSettings && savedSettings.showNsfw != null ? savedSettings.subreddits : state.subreddits;
@@ -346,6 +353,12 @@ export const mutations = {
 
     SET_SHOW_NSFW(state, status) {
         state.showNsfw = status;
+
+        saveSettings(state);
+    },
+
+    SET_THEME(state, theme) {
+        state.theme = theme;
 
         saveSettings(state);
     },
@@ -673,5 +686,12 @@ export const actions = {
             item,
             message,
         });
+    },
+
+    /**
+     * Saves theme.
+     */
+    setTheme({ commit }, theme) {
+        commit('SET_THEME', theme);
     },
 };

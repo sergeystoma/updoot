@@ -21,8 +21,8 @@
         line-height: 30px;
         border-radius: 40px;
 
-        background: #000;
-        color: #fff;
+        background: var(--color-button-background);
+        color: var(--color-button-text);
 
         @include font-main();
         font-size: 16px;

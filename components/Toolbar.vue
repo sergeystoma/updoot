@@ -57,15 +57,15 @@
 
         height: 60px;
 
-        background: #fff;
+        background: var(--color-background-main);
 
-        border-bottom: 1px solid #f1f1f1;
+        border-bottom: 1px solid var(--color-background-faded);
 
         z-index: 1;
     }
 
     button {
-        color: #161617;
+        color: var(--color-button-dark-text);
         background: transparent;
         border: none;
     }
@@ -121,8 +121,8 @@
         border-radius: 10px;
         border: none;
 
-        color: #000 ;
-        background: #f1f1f1;
+        color: var(--color-button-dark-text);
+        background: var(--color-background-faded);
 
         &:focus {
             outline: none;
@@ -143,8 +143,8 @@
         right: 6px;
         border-radius: 9px;
 
-        background: #161617;
-        color: #fff;
+        background: var(--color-button-light-background);
+        color: var(--color-button-text);
 
         span {
             @include font-main();
