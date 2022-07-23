@@ -88,7 +88,6 @@
             keyDown() {
                 this.hideOutlines = false;
             },
-
-        }
+        },
     };
 </script>

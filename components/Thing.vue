@@ -1,5 +1,12 @@
 <template>
     <div class="thing">
+        <transition name="menu-fade">
+            <Toast
+                v-if="toastVisible"
+                :message="toastMessage"
+            />
+        </transition>
+
         <div class="thing__header">
             <div class="thing__location">
                 <button
@@ -129,6 +136,8 @@
     @import "~assets/styles/mixins.scss";
 
     .thing {
+        position: relative;
+        ;
         border-top: 5px solid #f0f0f0;
         padding-top: 10px;
         margin-top: 10px;
@@ -290,10 +299,12 @@
 
 <script>
     import ThingImage from './Image.vue';
+    import Toast from '../components/Toast.vue';
 
     export default {
         components: {
             ThingImage,
+            Toast,
         },
         props: {
             item: {
@@ -308,6 +319,12 @@
                 type: Number,
                 default: null,
             },
+        },
+        data() {
+            return {
+                toastVisible: false,
+                toastMessage: null,
+            };
         },
         computed: {
             canShare() {
@@ -353,6 +370,24 @@
             layout() {
                 return this.$store.state.layout;
             },
+
+            toast() {
+                const t = this.$store.state.toast;
+                return t && t.item === this.item.name ? t : null;
+            },
+        },
+        watch: {
+            toast: {
+                deep: true,
+                handler() {
+                    this.updateToast();
+                },
+            },
+        },
+        beforeDestroy() {
+            if (this.toastTimer) {
+                clearTimeout(this.toastTimer);
+            }
         },
         methods: {
             notEmpty(s) {
@@ -393,6 +428,26 @@
                     });
                 }
             },
+
+            /**
+             * Updates toast state.
+             */
+            updateToast() {
+                if (this.toastTimer) {
+                    clearTimeout(this.toastTimer);
+                }
+
+                if (this.toast) {
+                    this.toastVisible = true;
+                    this.toastMessage = this.toast.message;
+
+                    this.toastTimer = setTimeout(() => {
+                        this.toastVisible = false;
+                    }, 2000);
+                } else {
+                    this.toastVisible = false;
+                }
+            }
         },
     };
 </script>

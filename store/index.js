@@ -68,6 +68,11 @@ export const state = () => ({
      * State encryption token.
      */
     tokenHash: '',
+
+    /**
+     * Toast.
+     */
+    toast: null,
 });
 
 /**
@@ -380,6 +385,14 @@ export const mutations = {
 
         saveSettings(state);
     },
+
+    SET_TOAST(state, { item, message }) {
+        state.toast = {
+            when: new Date().getTime(),
+            item,
+            message,
+        };
+    },
 };
 
 export const actions = {
@@ -571,6 +584,11 @@ export const actions = {
                 item,
                 saved: false,
             });
+
+            dispatch('showToast', {
+                item: item.name,
+                message: 'Unsaved',
+            });
         }).catch(() => {
         });
     },
@@ -583,6 +601,11 @@ export const actions = {
             commit('SET_ITEM_SAVED', {
                 item,
                 saved: true,
+            });
+
+            dispatch('showToast', {
+                item: item.name,
+                message: 'Resaved',
             });
         }).catch(() => {
         });
@@ -597,6 +620,11 @@ export const actions = {
                 item,
                 pinned: false,
             });
+
+            dispatch('showToast', {
+                item: item.name,
+                message: 'Unpinned',
+            });
         }).catch(() => {
         });
     },
@@ -609,6 +637,11 @@ export const actions = {
             commit('SET_ITEM_PINNED', {
                 item,
                 pinned: true,
+            });
+
+            dispatch('showToast', {
+                item: item.name,
+                message: 'Pinned',
             });
         }).catch(() => {
         });
@@ -630,5 +663,15 @@ export const actions = {
      */
     setLayout({ commit }, type) {
         commit('SET_LAYOUT', type);
+    },
+
+    /**
+     * Shows toast message.
+     */
+    showToast({ commit }, { item, message }) {
+        commit('SET_TOAST', {
+            item,
+            message,
+        });
     },
 };
