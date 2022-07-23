@@ -26,7 +26,7 @@
 
                 <button
                     v-if="!loggedIn"
-                    class="hero__login button button--large"
+                    class="hero__login button button--hero button--large"
                     @click.prevent="login"
                 >
                     Sign in with Reddit
@@ -34,7 +34,7 @@
 
                 <button
                     v-if="loggedIn"
-                    class="hero__login button button--large"
+                    class="hero__login button button--hero button--large"
                     @click.prevent="loadApp"
                 >
                     Go to the app
@@ -42,7 +42,7 @@
 
                 <button
                     v-if="loggedIn"
-                    class="hero__logout button button--large"
+                    class="hero__logout button button--hero button--large"
                     @click.prevent="logout"
                 >
                     Sign out
@@ -55,7 +55,7 @@
         </div>
 
         <footer>
-            &copy; 2019
+            &copy; 2022
             Made with
             <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -221,6 +221,8 @@
     }
 
     .hero__login {
+        background: var(--color-landing-hero-text);
+        color: #fff;
     }
 
     .hero__logout {

@@ -59,9 +59,6 @@
     }
 
     .app {
-        --color-landing-text: #000;
-        --color-landing-hero-text: #242424;
-
         @include light-mode();
 
         &.app-theme--dark {
