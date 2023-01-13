@@ -41,7 +41,7 @@
                         'button',
                         'button--toggle',
                         {
-                            'button--toggle-active': theme == null || theme === 'light',
+                            'button--toggle-active': theme === 'light',
                         }
                     ]"
                     @click.prevent="setTheme('light')"
@@ -67,7 +67,7 @@
                         'button',
                         'button--toggle',
                         {
-                            'button--toggle-active': theme === 'auto',
+                            'button--toggle-active': theme == null || theme === 'auto',
                         }
                     ]"
                     @click.prevent="setTheme('auto')"
