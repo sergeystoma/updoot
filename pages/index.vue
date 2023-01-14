@@ -9,7 +9,6 @@
             <div class="hero__content">
                 <img
                     class="hero__logo"
-                    src="/hero.jpg"
                     alt="Looking for that special recipe that you lost and couldn't find again because you have 1000 saved posts and comments..."
                 >
 
@@ -70,6 +69,10 @@
             and
             <a href="https://www.termsfeed.com/terms-conditions/5b2690df517070518303bd8e32c80b91">Terms of Use</a>.
             <a href="https://github.com/sergeystoma/updoot/issues">Issues &amp; Support.</a>
+            <span id="dark-theme-photo-attribution">
+                Image by 
+                <a href="https://www.freepik.com/free-photo/italian-food-concept-with-space-left_1308721.htm#query=food%20on%20dark%20table&position=45&from_view=search&track=ais">Freepik.</a>
+            </span>
         </footer>
     </div>
 </template>
@@ -286,6 +289,10 @@
             vertical-align: -0.25em;
 
             fill: var(--color-landing-text);
+        }
+
+        #dark-theme-photo-attribution {
+            display: var(--dark-theme-inline-element-display);
         }
     }
 </style>

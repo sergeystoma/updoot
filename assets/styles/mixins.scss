@@ -83,7 +83,8 @@ $breakpoints: (
     --color-section-separator: #eaeaea;
     --color-thing-separator: #f0f0f0;
     --color-button-dark-text: #161617;
-    --index-page-logo: url("/hero.jpg")
+    --index-page-logo: url("/hero.jpg");
+    --dark-theme-inline-element-display: none;
 }
 
 @mixin dark-mode() {
@@ -103,5 +104,6 @@ $breakpoints: (
     --color-section-separator: #333;
     --color-thing-separator: #242424;
     --color-button-dark-text: #f1f1f1;
-    --index-page-logo: url("/hero-dark.jpg")
+    --index-page-logo: url("/hero-dark.jpg");
+    --dark-theme-inline-element-display: inline-block;
 }
