@@ -3,9 +3,7 @@
 :root {
     // Light and dark themes based on browser preference to be used when 
     // the app theme setting is not set to light or dark.
-    @media (prefers-color-scheme: light) {
-        @include light-mode();
-    }
+    @include light-mode();
     
     @media (prefers-color-scheme: dark) {
         @include dark-mode();
