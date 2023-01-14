@@ -1,9 +1,15 @@
-:root {
-    --color-landing-text: #000;
-    --color-landing-hero-text: #242424;
-}
+@import "mixins.scss";
 
-html {
+:root {
+    // Light and dark themes based on browser preference to be used when 
+    // the app theme setting is not set to light or dark.
+    @media (prefers-color-scheme: light) {
+        @include light-mode();
+    }
+    
+    @media (prefers-color-scheme: dark) {
+        @include dark-mode();
+    }
 }
 
 body {
@@ -15,6 +21,12 @@ body {
 
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
+
+    // This prevents a white flash (when in a dark theme) from the body 
+    // element being shown while the app is still loading data after 
+    // navigating to the app page from the index page, as well as just
+    // adds consistency to the theming.
+    background-color: var(--color-background-main);
 }
 
 * {

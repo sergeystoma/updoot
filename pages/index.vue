@@ -87,6 +87,8 @@
         align-items: center;
 
         overflow: hidden;
+
+        background: var(--color-background-main);
     }
 
     .hero__content {
@@ -107,6 +109,8 @@
         position: absolute;
 
         display: none;
+
+        content: var(--index-page-logo);
 
         @media (min-width: 768px) {
             display: block;
@@ -221,20 +225,20 @@
     }
 
     .hero__login {
-        background: var(--color-landing-hero-text);
-        color: #fff;
+        background: var(--color-button-background);
+        color: var(--color-button-text);
     }
 
     .hero__logout {
         margin-left: 10px;
 
-        border: 1px solid var(--color-landing-hero-text);
+        border: 1px solid var(--color-landing-text);
         background: transparent;
 
         @include font-main();
         font-size: 16px;
 
-        color: var(--color-landing-hero-text);
+        color: var(--color-landing-text);
     }
 
     .hero__consent {
@@ -242,6 +246,8 @@
 
         @include font-main();
         font-size: 16px;
+
+        color: var(--color-text-main);
     }
 
     footer {
@@ -278,6 +284,8 @@
             height: 1em;
 
             vertical-align: -0.25em;
+
+            fill: var(--color-landing-text);
         }
     }
 </style>

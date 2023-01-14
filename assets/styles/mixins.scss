@@ -63,3 +63,45 @@ $breakpoints: (
 @mixin font-main() {
     font-family: 'Source Sans Pro', sans-serif;
 }
+
+// Theme colors.
+
+@mixin light-mode() {
+    --color-landing-text: #000;
+    --color-landing-hero-text: #242424;
+    --color-text-faded: #787797;
+    --color-text-main: #0e1111;
+    --color-text-copy: #232b2b;
+    --color-text-warning: #ff3f4f;
+    --color-button-text: #fff;
+    --color-button-background: #242424;
+    --color-button-count: #999;
+    --color-attention: #ff3f4f;
+    --color-background-faded: #f1f1f1;
+    --color-background-main: #fff;
+    --color-button-light-background: #161617;
+    --color-section-separator: #eaeaea;
+    --color-thing-separator: #f0f0f0;
+    --color-button-dark-text: #161617;
+    --index-page-logo: url("/hero.jpg")
+}
+
+@mixin dark-mode() {
+    --color-landing-text: #f1eeee;
+    --color-landing-hero-text: #909ca5;
+    --color-text-faded: #909ca5;
+    --color-text-main: #f1eeee;
+    --color-text-copy: #dcd4d4;
+    --color-text-warning: #ff3f4f;
+    --color-button-text: #000;
+    --color-button-background: #fff;
+    --color-button-count: #999;
+    --color-attention: #ff3f4f;
+    --color-background-faded: #333;
+    --color-background-main: #161617;
+    --color-button-light-background: #f1f1f1;
+    --color-section-separator: #333;
+    --color-thing-separator: #242424;
+    --color-button-dark-text: #f1f1f1;
+    --index-page-logo: url("/hero-dark.jpg")
+}
