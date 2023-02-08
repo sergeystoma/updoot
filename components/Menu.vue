@@ -250,6 +250,81 @@
             </div>
 
             <div class="menu__section menu__section-header">
+                Shuffle 
+                <small>
+                    Behavior for the shuffle button.
+                    Shuffling all posts in quick succession may impact performance
+                </small>
+            </div>
+
+            <div class="menu__section">
+                <button
+                    :class="[
+                        'button',
+                        'button--toggle',
+                        {
+                            'button--toggle-active': numShuffledPosts === -1,
+                        }
+                    ]"
+                    @click.prevent="setNumShuffledPosts(-1)"
+                >
+                    Shuffle all saved posts
+                </button>
+
+                <button
+                    :class="[
+                        'button',
+                        'button--toggle',
+                        {
+                            'button--toggle-active': numShuffledPosts !== -1,
+                        }
+                    ]"
+                    @click.prevent="setNumShuffledPosts(30)"
+                >
+                    Display a number of random posts
+                </button>
+
+                <input
+                    v-if="numShuffledPosts !== -1"
+                    v-model="numShuffledPosts"
+                    type="text"
+                    placeholder="Number of random posts to display..."
+                    class="menu__num-random-posts"
+                >
+            </div>
+
+            <div 
+                v-if="numShuffledPosts !== -1"
+                class="menu__section"
+            >
+                <button
+                    :class="[
+                        'button',
+                        'button--toggle',
+                        {
+                            'button--toggle-active': !trueRandomization,
+                        }
+                    ]"
+                    @click.prevent="setTrueRandomization(false)"
+                >
+                    Unique randomization
+                </button>
+
+                <button
+                    :class="[
+                        'button',
+                        'button--toggle',
+                        {
+                            'button--toggle-active': trueRandomization,
+                        }
+                    ]"
+                    @click.prevent="setTrueRandomization(true)"
+                >
+                    True randomization
+                </button>
+            </div>
+
+            <div class="menu__section menu__section-header">
                 Support
             </div>
 
@@ -423,10 +498,8 @@
         }
     }
 
-    .menu__filter-subreddit {
-        width: 100%;
-
-        height: 40px;
+    input {
+        height: 45px;
         padding: 0 20px;
 
         @include font-main();
@@ -442,7 +515,10 @@
         &:focus {
             outline: none;
         }
+    }
 
+    .menu__filter-subreddit {
+        width: 100%;
     }
 
     .menu__filter-clear {
@@ -472,6 +548,13 @@
 
         text-decoration: underline;
         text-underline-offset: 2px;
+    }
+
+    .menu__num-random-posts {
+        align-self: center;
+
+        width: 80px;
+        margin: 5px;
     }
 </style>
 
@@ -537,6 +620,22 @@
             theme() {
                 return this.$store.state.theme;
             },
+
+            numShuffledPosts: {
+                get() {
+                    return this.$store.state.numShuffledPosts;
+                },
+                set(num) {
+                    num = Math.floor(num.data || num);
+                    if (!isNaN(num)) {
+                        this.$store.dispatch('setNumShuffledPosts', num);
+                    }
+                }
+            },
+
+            trueRandomization() {
+                return this.$store.state.shuffleSeed === null;
+            },
         },
         methods: {
             close() {
@@ -573,6 +672,14 @@
 
             setTheme(theme) {
                 this.$store.dispatch('setTheme', theme);
+            },
+
+            setNumShuffledPosts(num) {
+                this.numShuffledPosts = num
+            },
+
+            setTrueRandomization(val) {
+                this.$store.dispatch('setTrueRandomization', val);
             },
         },
     };
