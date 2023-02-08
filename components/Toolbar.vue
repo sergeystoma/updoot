@@ -72,6 +72,9 @@
                     v-if="loading"
                     class="fas fa-circle-notch"
                 />
+                <span class="toolbar__tooltip">
+                    Reload posts
+                </span>
             </button>
 
             <button
@@ -80,6 +83,9 @@
                 @click.prevent="showMenu"
             >
                 <i class="fas fa-bars" />
+                <span class="toolbar__tooltip">
+                    Open Menu
+                </span>
             </button>
         </div>
     </div>
@@ -100,12 +106,6 @@
         z-index: 1;
     }
 
-    button {
-        color: var(--color-button-dark-text);
-        background: transparent;
-        border: none;
-    }
-
     .toolbar__controls {
         display: flex;
 
@@ -119,6 +119,8 @@
 
         justify-content: center;
         align-items: center;
+
+        @include font-main();
 
         @include respond-above(sm) {
             padding-left: 0;
@@ -150,7 +152,6 @@
         height: 40px;
         padding: 0 20px;
 
-        @include font-main();
         font-size: 18px;
         line-height: 40px;
 
@@ -183,13 +184,43 @@
         color: var(--color-button-text);
 
         span {
-            @include font-main();
             font-size: 16px;
             line-height: 1;
         }
     }
 
-    .toolbar__reload, .toolbar__menu {
+    .toolbar__tooltip {
+        position: absolute;
+        opacity: 0;
+        z-index: 2;
+
+        bottom: -25px;
+        left: 0px;
+
+        padding: 6px;
+
+        font-size: small;
+        white-space: nowrap;
+
+        border-radius: 5px;
+        color: var(--color-text-copy);
+        background-color: var(--color-background-faded);
+
+        transition: opacity .1s;
+    }
+
+    button {
+        position: relative;
+
+        color: var(--color-button-dark-text);
+        background: transparent;
+        border: none;
+
+        &:hover .toolbar__tooltip {
+            opacity: 1;
+            transition: opacity .1s linear 1s;
+        }
+    }
 
     .toolbar__reload, .toolbar__menu, .toolbar__extra-icon {
         flex: 0 0 auto;
