@@ -13,13 +13,23 @@
             :gutter="{ default: '30px' }"
         >
             <Thing
-                v-for="item in saved"
+                v-for="item in saved.slice(0, 100)"
                 :key="item.name"
                 :item="item"
                 :width="width"
                 :height-limit="heightLimit"
                 @observe="observe"
             />
+            <template v-if="defer(10)">
+                <Thing
+                    v-for="item in saved.slice(100, saved.length)"
+                    :key="item.name"
+                    :item="item"
+                    :width="width"
+                    :height-limit="heightLimit"
+                    @observe="observe"
+                />
+            </template>
         </masonry>
     </div>
 </template>
@@ -97,6 +107,7 @@
 <script>
     import Vue from 'vue';
     import Masonry from 'vue-masonry-css';
+    import Defer from "../assets/Defer";
 
     import Thing from './Thing.vue';
 
@@ -106,6 +117,9 @@
         components: {
             Thing,
         },
+        mixins: [
+            Defer(),
+        ],
         data() {
             return {
                 observer: null,
