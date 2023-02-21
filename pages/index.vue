@@ -9,7 +9,6 @@
             <div class="hero__content">
                 <img
                     class="hero__logo"
-                    src="/hero.jpg"
                     alt="Looking for that special recipe that you lost and couldn't find again because you have 1000 saved posts and comments..."
                 >
 
@@ -70,6 +69,10 @@
             and
             <a href="https://www.termsfeed.com/terms-conditions/5b2690df517070518303bd8e32c80b91">Terms of Use</a>.
             <a href="https://github.com/sergeystoma/updoot/issues">Issues &amp; Support.</a>
+            <span id="dark-theme-photo-attribution">
+                Image by 
+                <a href="https://www.freepik.com/free-photo/italian-food-concept-with-space-left_1308721.htm#query=food%20on%20dark%20table&position=45&from_view=search&track=ais">Freepik.</a>
+            </span>
         </footer>
     </div>
 </template>
@@ -87,6 +90,8 @@
         align-items: center;
 
         overflow: hidden;
+
+        background: var(--color-background-main);
     }
 
     .hero__content {
@@ -107,6 +112,8 @@
         position: absolute;
 
         display: none;
+
+        content: var(--index-page-logo);
 
         @media (min-width: 768px) {
             display: block;
@@ -221,20 +228,20 @@
     }
 
     .hero__login {
-        background: var(--color-landing-hero-text);
-        color: #fff;
+        background: var(--color-button-background);
+        color: var(--color-button-text);
     }
 
     .hero__logout {
         margin-left: 10px;
 
-        border: 1px solid var(--color-landing-hero-text);
+        border: 1px solid var(--color-landing-text);
         background: transparent;
 
         @include font-main();
         font-size: 16px;
 
-        color: var(--color-landing-hero-text);
+        color: var(--color-landing-text);
     }
 
     .hero__consent {
@@ -242,6 +249,8 @@
 
         @include font-main();
         font-size: 16px;
+
+        color: var(--color-text-main);
     }
 
     footer {
@@ -278,6 +287,12 @@
             height: 1em;
 
             vertical-align: -0.25em;
+
+            fill: var(--color-landing-text);
+        }
+
+        #dark-theme-photo-attribution {
+            display: var(--dark-theme-inline-element-display);
         }
     }
 </style>

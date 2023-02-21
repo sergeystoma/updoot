@@ -22,59 +22,18 @@
 </template>
 
 <style lang="scss">
-    // Colors.
-
-    @mixin light-mode() {
-        --color-text-faded: #787797;
-        --color-text-main: #0e1111;
-        --color-text-copy: #232b2b;
-        --color-text-warning: #ff3f4f;
-        --color-button-text: #fff;
-        --color-button-background: #000;
-        --color-button-count: #999;
-        --color-attention: #ff3f4f;
-        --color-background-faded: #f1f1f1;
-        --color-background-main: #fff;
-        --color-button-light-background: #161617;
-        --color-section-separator: #eaeaea;
-        --color-thing-separator: #f0f0f0;
-        --color-button-dark-text: #161617;
-    }
-
-    @mixin dark-mode() {
-        --color-text-faded: #909ca5;
-        --color-text-main: #f1eeee;
-        --color-text-copy: #dcd4d4;
-        --color-text-warning: #ff3f4f;
-        --color-button-text: #000;
-        --color-button-background: #fff;
-        --color-button-count: #999;
-        --color-attention: #ff3f4f;
-        --color-background-faded: #333;
-        --color-background-main: #161617;
-        --color-button-light-background: #f1f1f1;
-        --color-section-separator: #333;
-        --color-thing-separator: #242424;
-        --color-button-dark-text: #f1f1f1;
-    }
+    @import "~assets/styles/mixins.scss";
 
     .app {
-        @include light-mode();
+        // Browser light and dark theme overrides based on app theme setting.
+        &.app-theme--light {
+            @include light-mode();
+        }
 
         &.app-theme--dark {
             @include dark-mode();
         }
 
-        @media (prefers-color-scheme: dark) {
-            @include dark-mode();
-
-            &.app-theme--light {
-                @include light-mode();
-            }
-        }
-    }
-
-    .app {
         background: var(--color-background-main);
     }
 
