@@ -4,6 +4,7 @@ import decode from 'unescape';
 import sanitizeHtml from 'sanitize-html';
 import aes from 'crypto-js/aes';
 import encUtf8 from 'crypto-js/enc-utf8';
+import { shuffleArray, shuffleArrayWithSeed } from '~/assets/Shuffle';
 
 // When enabled, use naive filtering/searching algorithm instead of Fuse.js.
 const useNaiveFilter = false;
@@ -78,6 +79,31 @@ export const state = () => ({
      * Toast.
      */
     toast: null,
+
+    /**
+     * The number of times the user has shuffled posts.
+     */
+    numShuffles: 0,
+
+    /**
+     * The number of shuffled posts to show at a time. 30 is the default because 
+     * it is a good middle ground between only showing a few shuffled posts and 
+     * showing all shuffled posts while still being clear to the user that not 
+     * all posts have been shuffled. Shuffling all posts is not the default 
+     * because it can hurt performance to do it repeatedly with a lot of posts 
+     * (more than several hundred because of the time to unmount then remount 
+     * that many elements at once). If users want to shuffle all posts at 
+     * once, they will have to navigate to the menu and see the message about it 
+     * impacting performance first - not to dicourage them from shuffling all 
+     * posts, but to make sure they are not shuffling all posts if what they 
+     * really want is just a few shuffled at a time.
+     */
+    numShuffledPosts: 30,
+
+    /**
+     * The seed to use when shuffling posts with a seed.
+     */
+    shuffleSeed: Math.floor(Math.random() * 100),
 });
 
 /**
@@ -90,6 +116,8 @@ function saveSettings(state) {
         filterNsfw: state.filterNsfw,
         subreddits: state.subreddits,
         layout: state.layout,
+        numShuffledPosts: state.numShuffledPosts,
+        shuffleSeed: state.shuffleSeed,
     }));
 }
 
@@ -104,14 +132,19 @@ function restoreSettings(state) {
         savedSettings = JSON.parse(savedSettings);
     } catch (e) {
         savedSettings = null;
+    } 
+    
+    if (savedSettings) {
+        state.theme = savedSettings.theme != undefined ? savedSettings.theme : state.theme;
+        state.showNsfw = savedSettings.showNsfw != undefined ? savedSettings.showNsfw : state.showNsfw;
+        state.filterNsfw = savedSettings.filterNsfw != undefined ? savedSettings.filterNsfw : state.filterNsfw;
+        state.subreddits = savedSettings.subreddits != undefined ? savedSettings.subreddits : state.subreddits;
+        state.numShuffledPosts = savedSettings.numShuffledPosts != undefined ? savedSettings.numShuffledPosts : state.numShuffledPosts;
+        // only restore the shuffle seed if it was set to null by the user
+        state.shuffleSeed = savedSettings.shuffleSeed === null ? null : state.shuffleSeed;
+    
+        state.layout = savedSettings.layout ? savedSettings.layout : 'fixed';
     }
-
-    state.theme = savedSettings && savedSettings.theme != null ? savedSettings.theme : state.theme;
-    state.showNsfw = savedSettings && savedSettings.showNsfw != null ? savedSettings.showNsfw : state.showNsfw;
-    state.filterNsfw = savedSettings && savedSettings.showNsfw != null ? savedSettings.filterNsfw : state.filterNsfw;
-    state.subreddits = savedSettings && savedSettings.showNsfw != null ? savedSettings.subreddits : state.subreddits;
-
-    state.layout = savedSettings && savedSettings.layout ? savedSettings.layout : 'fixed';
 }
 
 /**
@@ -276,6 +309,32 @@ export const getters = {
             posts = posts.filter(p => validSubreddits.includes(p.subreddit));
         }
 
+        // Apply randomized shuffle. Do this last so users can shuffle a subset 
+        // of posts based on search, filters, or subreddits.
+        if (state.numShuffles && posts.length) {
+            const shuffleAllPosts = 
+                state.numShuffledPosts <= 0 || 
+                state.numShuffledPosts >= posts.length;
+
+            const useTrueRandomization = state.shuffleSeed === null;
+
+            if (shuffleAllPosts) {
+                posts = shuffleArray(posts);
+            } else if (useTrueRandomization) {
+                posts = shuffleArray(posts).slice(0, state.numShuffledPosts);
+            } else {
+                // Guaruntees no post is shown twice before all other posts have 
+                // been shown.
+                posts = shuffleArrayWithSeed(posts, state.shuffleSeed);
+                
+                let start = state.numShuffles * state.numShuffledPosts % posts.length;
+                let end = start + state.numShuffledPosts;
+                let overflow = Math.max(end - posts.length, 0);
+                
+                posts = [...posts.slice(start, end), ...posts.slice(0, overflow)];
+            }
+        }
+
         return posts;
     },
 };
@@ -405,6 +464,26 @@ export const mutations = {
             item,
             message,
         };
+    },
+
+    SET_SHUFFLE(state) {
+        state.numShuffles++;
+    },
+
+    RESET_SHUFFLE(state) {
+        state.numShuffles = 0;
+    },
+
+    SET_NUM_SHUFFLED_POSTS(state, num) {
+        state.numShuffledPosts = num;
+
+        saveSettings(state);
+    },
+
+    SET_SHUFFLE_SEED(state, seed) {
+        state.shuffleSeed = seed;
+
+        saveSettings(state);
     },
 };
 
@@ -693,5 +772,42 @@ export const actions = {
      */
     setTheme({ commit }, theme) {
         commit('SET_THEME', theme);
+    },
+
+    /**
+     * Sets true randomization true or false, changing the shuffle seed when
+     * setting to false so users get a new seeded shuffle every time they
+     * toggle the option off and back on.
+     */
+    setTrueRandomization({ commit }, trueRandomization) {
+        if (trueRandomization) {
+            commit('SET_SHUFFLE_SEED', null);
+        } else {
+            commit('SET_SHUFFLE_SEED', Math.floor(Math.random() * 100));
+        }
+    },
+
+    /**
+     * Shuffles posts.
+     */
+    shuffle({ commit }) {
+        commit('SET_SHUFFLE');
+    },
+
+    /**
+     * Resets shuffled posts so they are displayed in original order again.
+     */
+    resetShuffle({ commit, state }) {
+        commit('RESET_SHUFFLE');
+        if (state.shuffleSeed) {
+            commit('SET_SHUFFLE_SEED', Math.floor(Math.random() * 100));
+        }
+    },
+
+    /**
+     * Sets the number of shuffled posts to display.
+     */
+    setNumShuffledPosts({ commit }, num) {
+        commit('SET_NUM_SHUFFLED_POSTS', num);
     },
 };

@@ -19,6 +19,42 @@
             </div>
 
             <button
+                v-if="numShuffles"
+                :class="[
+                    'toolbar__resetShuffle',
+                    'toolbar__extra-icon',
+                    {
+                        'toolbar__resetShuffle--loading': loading
+                    }
+                ]"
+                aria-label="Reset Shuffle"
+                @click.prevent="resetShuffle"
+            >
+                <i class="fas fa-ban" />
+                <span class="toolbar__tooltip">
+                    Reset shuffle
+                </span>
+            </button>
+
+            <button
+                v-if="!loading"
+                :class="[
+                    'toolbar__shuffle',
+                    'toolbar__extra-icon',
+                    {
+                        'toolbar__shuffle--loading': loading
+                    }
+                ]"
+                aria-label="Shuffle"
+                @click.prevent="shuffle"
+            >
+                <i class="fas fa-random" />
+                <span class="toolbar__tooltip">
+                    Shuffle posts
+                </span>
+            </button>
+
+            <button
                 :class="[
                     'toolbar__reload',
                     {
@@ -36,6 +72,9 @@
                     v-if="loading"
                     class="fas fa-circle-notch"
                 />
+                <span class="toolbar__tooltip">
+                    Reload posts
+                </span>
             </button>
 
             <button
@@ -44,6 +83,9 @@
                 @click.prevent="showMenu"
             >
                 <i class="fas fa-bars" />
+                <span class="toolbar__tooltip">
+                    Open Menu
+                </span>
             </button>
         </div>
     </div>
@@ -64,12 +106,6 @@
         z-index: 1;
     }
 
-    button {
-        color: var(--color-button-dark-text);
-        background: transparent;
-        border: none;
-    }
-
     .toolbar__controls {
         display: flex;
 
@@ -83,6 +119,8 @@
 
         justify-content: center;
         align-items: center;
+
+        @include font-main();
 
         @include respond-above(sm) {
             padding-left: 0;
@@ -114,7 +152,6 @@
         height: 40px;
         padding: 0 20px;
 
-        @include font-main();
         font-size: 18px;
         line-height: 40px;
 
@@ -147,20 +184,52 @@
         color: var(--color-button-text);
 
         span {
-            @include font-main();
             font-size: 16px;
             line-height: 1;
         }
     }
 
-    .toolbar__reload, .toolbar__menu {
+    .toolbar__tooltip {
+        position: absolute;
+        opacity: 0;
+        z-index: 2;
 
+        bottom: -25px;
+        left: 0px;
+
+        padding: 6px;
+
+        font-size: small;
+        white-space: nowrap;
+
+        border-radius: 5px;
+        color: var(--color-text-copy);
+        background-color: var(--color-background-faded);
+
+        transition: opacity .1s;
+    }
+
+    button {
+        position: relative;
+
+        color: var(--color-button-dark-text);
+        background: transparent;
+        border: none;
+
+        &:hover .toolbar__tooltip {
+            opacity: 1;
+            transition: opacity .1s linear 1s;
+        }
+    }
+
+    .toolbar__reload, .toolbar__menu, .toolbar__extra-icon {
         flex: 0 0 auto;
 
-        margin-left: 10px;
+        margin-left: 5px;
+        padding: 0;
 
-        width: 40px;
-        height: 40px;
+        width: 35px;
+        height: 35px;
 
         border: none;
         background: none;
@@ -170,8 +239,6 @@
 
     .toolbar__menu {
         position: relative;
-
-        margin-left: 0;
 
         &:after {
             content: '';
@@ -200,8 +267,6 @@
     }
 
     .toolbar__reload {
-        margin-left: 12px;
-
         &.toolbar__reload--loading {
             i {
                 opacity: 0.4;
@@ -212,6 +277,21 @@
                 animation-timing-function: linear;
             }
         }
+    }
+
+    @keyframes grow {
+        0% {
+            scale: 0;
+            margin-left: 0;
+        }
+        100% {
+            scale: 1;
+            margin-left: 12px;
+        }
+    } 
+
+    .toolbar__extra-icon {
+        animation: grow .1s;
     }
 </style>
 
@@ -264,6 +344,10 @@
                     }
                 }
             },
+
+            numShuffles() {
+                return this.$store.state.numShuffles;
+            },
         },
         mounted() {
             this.doSearchDebounce = debounce(this.doSearch, 250);
@@ -283,6 +367,14 @@
 
             reload() {
                 this.$store.dispatch('reload');
+            },
+
+            shuffle() {
+                this.$store.dispatch('shuffle');
+            },
+
+            resetShuffle() {
+                this.$store.dispatch('resetShuffle');
             },
         },
     };
