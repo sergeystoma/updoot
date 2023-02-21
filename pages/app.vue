@@ -123,7 +123,7 @@
             },
 
             theme() {
-                return this.$store.state.theme || 'light';
+                return this.$store.state.theme || 'auto';
             },
         },
         mounted() {
